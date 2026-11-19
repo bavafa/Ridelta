@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { MODULES } from '../Layout';
 import { Answer } from '../components';
 
-// Titles and answers come from design/ui. The module bodies land with E3 to E5.
+// Titles and answers come from design/ui.
 const COPY = [
   { title: 'Who should get a ride offer?', answer: 'Rank riders by how much an offer changes what they do, not by how likely they are to ride.' },
   { title: 'Which stores or malls should help pay for rides?', answer: 'A sponsor pays a fixed fee for each confirmed visit. The page ranks the starting areas most likely to bring new visitors.' },
-  { title: 'Did the offer really work?', answer: 'A marketplace simulator runs a group split test and an hour-by-hour test, then compares both with the real effect.' },
+  { title: 'Does the test tell the truth?', answer: 'A marketplace simulator runs a group split test and an hour-by-hour test, then compares both with the real effect.' },
 ];
 
 /** Shared module frame (D13): question, answer, source, then the page body, then Back and Next. */
@@ -29,7 +29,3 @@ export function ModuleFrame({ i, answer, source, children }: { i: number; answer
     </main>
   );
 }
-
-export const ModulePage = ({ i }: { i: number }) => (
-  <ModuleFrame i={i}><section className="card" style={{ marginBottom: 24 }}><p className="muted">This module is not built yet.</p></section></ModuleFrame>
-);

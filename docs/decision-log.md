@@ -331,6 +331,18 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 - **Decision:** The plan pairs the busiest starting areas by volume and finds the shortest test (2 to 12 weeks) whose smallest detectable change is 10 percent or less, using two Poisson counts, 80 percent power and a 5 percent test. Rides to the store's zone stand in for rides to the store door.
 - **Why:** No public data shows rides to a single door. The page says so next to the plan.
 
+### D64. Prove simulator
+- **Decision:** Ride requests and cars are drawn at random every 15 minutes in 1, 5 or 20 areas. Each area serves its own requests first. A fifth of the idle cars can then serve unmet requests in other areas. The visitor's real effect is the effect on completed rides if the offer ran for everyone, so the model finds the demand lift that gives exactly that. The group split test splits riders inside every area. The hour-by-hour test switches whole areas on and off by time slot. Each result is the average of 8 to 20 runs, and a fixed seed gives the same answer for the same levers.
+- **Why:** The real effect has to be a number the visitor sets, and both tests must be scored against it. Setting it on rides, not requests, is what makes the group split bias appear: with few cars, riders with the offer take cars from others, so the group split test reads the demand lift, which is higher than the real effect on rides. Averaging runs removes luck from a single draw.
+
+### D65. Prove placeholders and a finding the design did not show
+- **Decision:** These are guesses, listed in the Advanced section: 400 requests per 15 minutes in the city, cars at 2.0, 1.3 and 1.08 times requests, one fifth of idle cars able to serve another area, and a quarter of demand still following the old setting in the first 15 minutes after a switch. With few cars in neighborhood-sized areas, both tests read high (about +11% and +7% against a real +5%). The hour-by-hour test is closer, but the page says it is still off and suggests longer slots or larger areas.
+- **Why:** The design showed the hour-by-hour test almost exact. In the simulator, areas that share cars leak the effect, so showing it as exact would overstate the case. The recommendation rules report the gap that is on screen.
+
+### D66. Recommendation rules
+- **Decision:** Fixed rules in src/prove/recommend.ts, each with a test: either test when both are within 0.5 points, the hour-by-hour test when it is closer (with the remaining gap named if above 0.5 points), the group split test when it is closer (with the reason: short slots, shared cars in neighborhoods, or fewer independent periods), and a prompt to run both when only one ran.
+- **Why:** The text is built from the numbers on screen, so it always matches them (D24).
+
 ## Open items for the next round
 
 - The Assumptions, Case study and Data and method pages are not designed yet.
