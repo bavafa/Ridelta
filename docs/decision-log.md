@@ -319,6 +319,18 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 - **Decision:** Two gradient boosting models, one fit on treated riders and one on control riders, scored on a held-out half. Curves are cumulative uplift (treated visit rate minus control visit rate) by share of riders reached, in 5 percent steps. Per-rider scores are not published, only curve points. The script checks that the model beats random at 30 percent.
 - **Why:** The test is randomized, so the held-out difference in means is a fair measure of uplift. Curve points are all the page needs and keep the derived files small.
 
+### D61. Sponsor data and model
+- **Decision:** Trips come from one month (2025-09) of the NYC high-volume for-hire file, read as zone-to-zone counts only. Stores come from Overture Maps Places (10 store types and shopping centers, confidence 0.9 or higher, 175 in total). The page ranks starting areas by extra visits per sponsor dollar. It spends the budget down the ranking and pays the fee for every confirmed visit.
+- **Why:** Only zone-level counts are needed, so the published file is 373 KB. Rank by value per dollar keeps the order stable when the budget changes.
+
+### D62. Sponsor placeholders
+- **Decision:** These are assumptions, not data: a 4-week campaign, a visit rate with no offer (4 percent for a store, 8 percent for a mall), the share who check in in time (1 minus e to the power of minus window over 12 minutes) and an effect that falls from 1 at the store to 0.5 at the edge of the distance. They are stated in the Advanced section and move to the Assumptions page.
+- **Why:** No public source gives these. Naming them keeps every output that uses them Simulated.
+
+### D63. Holdout plan uses rides to the store's zone
+- **Decision:** The plan pairs the busiest starting areas by volume and finds the shortest test (2 to 12 weeks) whose smallest detectable change is 10 percent or less, using two Poisson counts, 80 percent power and a 5 percent test. Rides to the store's zone stand in for rides to the store door.
+- **Why:** No public data shows rides to a single door. The page says so next to the plan.
+
 ## Open items for the next round
 
 - The Assumptions, Case study and Data and method pages are not designed yet.
