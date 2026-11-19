@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { MODULES } from '../Layout';
 import { Answer } from '../components';
@@ -9,16 +10,18 @@ const COPY = [
   { title: 'Did the offer really work?', answer: 'A marketplace simulator runs a group split test and an hour-by-hour test, then compares both with the real effect.' },
 ];
 
-export function ModulePage({ i }: { i: number }) {
-  const { title, answer } = COPY[i], back = MODULES[i - 1], next = MODULES[i + 1];
+/** Shared module frame (D13): question, answer, source, then the page body, then Back and Next. */
+export function ModuleFrame({ i, answer, source, children }: { i: number; answer?: ReactNode; source?: ReactNode; children: ReactNode }) {
+  const { title } = COPY[i], back = MODULES[i - 1], next = MODULES[i + 1];
   return (
     <main className="wrap">
       <div className="mod-head">
         <p className="eyebrow">Module {i + 1} of 3 · {MODULES[i].name}</p>
         <h1 className="h2">{title}</h1>
-        <Answer>{answer}</Answer>
+        <Answer>{answer ?? COPY[i].answer}</Answer>
+        {source && <p className="source">{source}</p>}
       </div>
-      <section className="card" style={{ marginBottom: 24 }}><p className="muted">This module is not built yet.</p></section>
+      {children}
       <div className="row between" style={{ paddingBottom: 80 }}>
         {back ? <Link className="btn" to={back.path}>← Back: {back.name}</Link> : <Link className="btn" to="/">← Home</Link>}
         {next && <Link className="btn primary" to={next.path}>Next: {next.name} →</Link>}
@@ -26,3 +29,7 @@ export function ModulePage({ i }: { i: number }) {
     </main>
   );
 }
+
+export const ModulePage = ({ i }: { i: number }) => (
+  <ModuleFrame i={i}><section className="card" style={{ marginBottom: 24 }}><p className="muted">This module is not built yet.</p></section></ModuleFrame>
+);

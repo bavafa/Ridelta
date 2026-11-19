@@ -91,7 +91,7 @@ Honesty label, key number card, lever panel (slider, segmented choice, field), a
 **Why:** A store that wants visitors can pay part of the offer cost. This lowers the platform's cost per extra ride without cutting the offer.
 
 **Requirements**
-- Data: NYC for-hire trip records (all operators combined), NYC taxi zones, open store data. Visit lift is an assumption.
+- Data: NYC for-hire trip records (all operators combined), NYC taxi zones, store locations from Overture Maps Places (CDLA Permissive 2.0 and Apache 2.0). Visit lift is an assumption.
 - Levers: who sponsors, store, budget, fee per confirmed visit, rider credit, check-in window, how far riders can start from, extra visits from the offer.
 - Outputs: map and ranked list of areas, extra store visits per sponsor dollar, platform cost after fees, "Fee covers rider credit" and a holdout test plan.
 - The rider check-in flow and its fallback messages are shown as copy mocks.

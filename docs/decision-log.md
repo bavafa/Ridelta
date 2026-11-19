@@ -297,6 +297,28 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 - **Decision:** The pages have one light look. There is no dark mode and no switch. This updates D50, whose dark set is dropped.
 - **Why:** Ridelta is an illustrative portfolio site. One carefully tuned look serves it better than a second theme that reads less well. It also keeps the gold and navy roles exact.
 
+## Build round 1 (2026-11-19)
+
+### D56. Static React app on GitHub Pages
+- **Decision:** Vite, React and TypeScript with hash routes. Model outputs are precomputed by Python scripts into small JSON files in public/data. The site deploys from main with GitHub Actions.
+- **Why:** The site has no server work. Precomputed files keep the pages fast and let a visitor move levers live (D17).
+
+### D57. Overture Maps Places for stores, Hillstrom stays for Target
+- **Decision:** Sponsor store locations come from Overture Maps Places, not OpenStreetMap or NYC Open Data. Hillstrom stays as the Target source. Criteo is not used.
+- **Why:** Overture has categories and a permissive license (CDLA Permissive 2.0, Apache 2.0 for some records) with no share-alike duty. Criteo is CC BY-NC-SA, which does not suit a public site. Hillstrom has no formal license, so only aggregate curve points are published, and the Data and method page must say so.
+
+### D58. Target compares ways of picking at the same spend
+- **Decision:** Each way of picking reaches as many riders as the budget and the cutoff allow. The headline compares Moved by offer with Random at the same spend. Everyone reaches all riders, so it is flagged "over budget" when it costs more.
+- **Why:** An earlier version left the budget unused, so Everyone was compared with smaller spends. Equal spend is the fair test.
+
+### D59. Offer cost is a fixed cost per rider reached
+- **Decision:** Cost = riders reached x 20 percent who use the offer x discount x $20 fare. All three are placeholders for the Assumptions page.
+- **Why:** This is the usual uplift-marketing rule. Charging the offer on every ride a reached rider takes was tried first. Under that rule, Moved by offer gained about 0 percent over Random at equal spend, because riders with high uplift also ride more. That finding belongs on the Data and method page. The rule is an assumption, so Target stays labeled Estimated and the page says the three values are placeholders.
+
+### D60. Uplift model and evaluation
+- **Decision:** Two gradient boosting models, one fit on treated riders and one on control riders, scored on a held-out half. Curves are cumulative uplift (treated visit rate minus control visit rate) by share of riders reached, in 5 percent steps. Per-rider scores are not published, only curve points. The script checks that the model beats random at 30 percent.
+- **Why:** The test is randomized, so the held-out difference in means is a fair measure of uplift. Curve points are all the page needs and keep the derived files small.
+
 ## Open items for the next round
 
 - The Assumptions, Case study and Data and method pages are not designed yet.

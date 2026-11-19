@@ -37,7 +37,7 @@ A sponsor pays for confirmed store visits from sponsored rides. The page ranks t
 - Rider reward: the rider gets the discount as ride credit after a confirmed check-in.
 - How riders learn about the offer: a banner on the home screen of the ride app, or a sponsored entry in the destination search list. Copy: "Get up to $[5.00] back in ride credit when you check in." The label "Sponsored" is always visible.
 - Check-in flow: after drop-off, the app shows "You have arrived at [Store name]" with an "I am here" button. On success, it shows "Visit confirmed" and adds the credit. Fallback messages cover low location confidence (scan the entrance code), an expired window and location turned off.
-- Data: NYC for-hire trip records (all operators combined), NYC taxi zones and open store data. Extra visits are an assumption, so related outputs are Simulated.
+- Data: NYC for-hire trip records (all operators combined), NYC taxi zones and store locations from Overture Maps Places. Extra visits are an assumption, so related outputs are Simulated.
 - Levers: who sponsors, store or mall, sponsor budget, fee per confirmed visit, rider credit, check-in window, how far riders can start from, extra visits from the offer (assumed).
 - Outputs: a map and ranked list of starting areas, extra store visits per sponsor dollar, platform cost after sponsor fees, whether the fee covers the rider credit, and a proposed way to check the result for real (a holdout test that compares rides ending at the store from areas with and without the offer).
 
