@@ -22,14 +22,30 @@ Ranks riders by how much an offer changes what they do (uplift modeling), instea
 
 ## Sponsor
 
-A sponsor helps pay for ride offers from the starting areas most likely to bring new shoppers.
+A sponsor pays for confirmed store visits from sponsored rides. The page ranks the starting areas most likely to bring new visitors.
 
-- Sponsor types: a single store, or a mall operator. For a mall, the operator pays, and a purchase at any store in the mall counts.
-- Payment rule: the rider gets the discount on the ride, and the platform covers it when the ride ends. The sponsor pays its share only when the rider makes a purchase. The rider proves the purchase with the offer code or a loyalty card at checkout. A ride that ends at the store with no purchase costs the sponsor nothing.
-- How riders learn about the offer: a banner on the home screen of the ride app, and a sponsored entry at the top of the destination search list. The word "Sponsored" is always visible.
-- Data: NYC for-hire trip records (all operators combined), NYC taxi zones and open store data. Extra visits and the share of visits that end in a purchase are assumptions, so related outputs are Simulated.
-- Levers: who sponsors, store or mall, sponsor budget, most the offer covers per ride, sponsor share of the discount, how far riders can start from, extra visits from the offer (assumed), visits that end in a purchase (assumed).
-- Outputs: a map and ranked list of starting areas, extra purchases per sponsor dollar, platform cost after the sponsor share, and a proposed way to check the result for real (a holdout test).
+- Sponsor types: a single store pays for confirmed visits to its own door. A mall operator pays for a confirmed visit to any entrance or participating store.
+- Payment rule: the sponsor pays a fixed fee for each confirmed visit, whether or not the rider buys. It is not a share of the discount and not a fee per purchase.
+- Rider reward: the rider gets the discount as ride credit after a confirmed check-in.
+- How riders learn about the offer: a banner on the home screen of the ride app, or a sponsored entry in the destination search list. Copy: "Get up to $[5.00] back in ride credit when you check in." The label "Sponsored" is always visible.
+- Check-in flow: after drop-off, the app shows "You have arrived at [Store name]" with an "I am here" button. On success, it shows "Visit confirmed" and adds the credit. Fallback messages cover low location confidence (scan the entrance code), an expired window and location turned off.
+- Data: NYC for-hire trip records (all operators combined), NYC taxi zones and open store data. Extra visits are an assumption, so related outputs are Simulated.
+- Levers: who sponsors, store or mall, sponsor budget, fee per confirmed visit, rider credit, check-in window, how far riders can start from, extra visits from the offer (assumed).
+- Outputs: a map and ranked list of starting areas, extra store visits per sponsor dollar, platform cost after sponsor fees, whether the fee covers the rider credit, and a proposed way to check the result for real (a holdout test that compares rides ending at the store from areas with and without the offer).
+
+### Check-in requirements
+
+- The rider can check in only once per ride, within the check-in window.
+- The check-in uses location at the moment of the tap, and no background tracking.
+- A code scan is available when location confidence is low. The code changes regularly, so a photo of it cannot be reused.
+- The sponsor is charged only for confirmed check-ins.
+- The platform pays the rider credit only after a confirmed check-in.
+- Privacy line near the check-in button: "We check your location only when you tap "I am here." We do not track you after your ride."
+
+### Open questions
+
+- Defaults for rider credit and the check-in window are placeholders. They will be set on the Assumptions page.
+- In a real launch, the fee per visit must cover the rider credit plus platform costs. The results show "Fee covers rider credit" as a first check.
 
 ## Prove
 

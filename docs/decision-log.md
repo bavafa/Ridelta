@@ -214,8 +214,58 @@ Feedback asked for six fixes. Layout, style and components stay the same. Deskto
 - **Decision:** Each frame is exported to design/screenshots as one PNG per view and size, using headless Chrome. design/REVIEW.md lists what changed.
 - **Why:** Reviewers can see the result without running a server.
 
+## Revision 2 (2026-11-18)
+
+The Sponsor payment model changed. This revision replaces D35 and D36 and updates D37 and D38. Desktop and mobile were both updated for Sponsor. The Sponsor card on Landing was updated to match.
+
+### D41. Sponsors pay a fixed fee per confirmed visit
+
+- **Decision:** Sponsors pay a fixed fee per confirmed visit, not per purchase and not as a share of the discount. This replaces D35.
+- **Why:** The platform's job is to bring a visitor to the store. Purchases depend on the store. Paying per purchase leaves the platform paying for visitors who find nothing they want.
+
+### D42. The rider gets the discount as ride credit after checking in
+
+- **Decision:** The rider earns the discount as ride credit after a confirmed check-in, not as a lower fare up front.
+- **Why:** One reward model keeps the copy consistent. The platform pays the credit only for confirmed visits, so it never pays for a ride that did not reach the store.
+
+### D43. Visits are confirmed by an in-app check-in, with a code scan as backup
+
+- **Decision:** After drop-off the rider taps "I am here" within the check-in window. Location is read only at the moment of the tap. Where location is not accurate enough, such as inside malls, the rider scans a code at the entrance that changes regularly.
+- **Why:** The app has location access only while it is open. Background tracking after a ride needs extra permission and clear consent, and indoor location is too inaccurate on its own.
+
+### D44. Levers follow the new model
+
+- **Decision:** "Sponsor share of the discount" and "Most the offer covers per ride" become "Fee per confirmed visit" and "Rider credit". "Visits that end in a purchase" is removed. "Check-in window" is added. The lever count stays at eight.
+- **Why:** Purchases no longer drive cost or payment, so the purchase rate has no job. The window is a real product choice that changes how many visits are confirmed.
+
+### D45. Headline metric returns to extra store visits per sponsor dollar
+
+- **Decision:** The headline is "Extra store visits per sponsor dollar". This replaces D36. The second number is "Platform cost after sponsor fees". The holdout test compares rides that end at the store from areas with and without the offer.
+- **Why:** The sponsor now buys visits, so return per sponsor dollar is counted in extra visits. Rides that end at the store can be counted in both groups, while check-ins exist only where the offer runs.
+
+### D46. Two honesty lines under the results
+
+- **Decision:** Under the key numbers: "A confirmed visit shows the rider came in. It does not show the offer caused the visit. The test below measures that." In the payment card: "A visit does not mean the rider bought something. It also does not mean the rider would have stayed home without the offer."
+- **Why:** A check-in count is easy to mistake for impact. The lines keep the honesty rule without adding a new label.
+
+### D47. A simple break-even check
+
+- **Decision:** A line next to the results shows "Fee covers rider credit: [Yes]" with a Simulated label.
+- **Why:** In a real launch the fee per visit has to cover the credit paid to riders plus platform costs. A yes or no is the smallest honest signal. Platform costs are left out until the Assumptions page sets them.
+
+### D48. "What the rider sees" shows the full check-in flow
+
+- **Decision:** The rider mock card now shows four moments: banner, search entry, after drop-off and check-in success. Three short fallback messages follow: location unclear, window ended and location off. The privacy line sits next to the "I am here" button. This updates D38.
+- **Why:** The check-in is the new part of the funnel, so a reviewer needs to see it. The fallback messages show the model has an answer for common failures. They are copy mocks of the rider app, not designs of Ridelta's own loading, empty or error states.
+
+### D49. Advanced gains "How visits are confirmed"
+
+- **Decision:** A second closed Advanced section explains the four checks behind a confirmed visit and the code scan backup.
+- **Why:** Practitioners will ask how visits are verified and how fraud is limited. Most visitors do not need it on first read.
+
 ## Open items for the next round
 
 - The Assumptions, Case study and Data and method pages are not designed yet.
 - Loading, empty and error states are not designed yet.
 - Real copy for the recommendation rules in Prove.
+- Defaults for rider credit and the check-in window, to be set on the Assumptions page.
