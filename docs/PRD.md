@@ -4,6 +4,14 @@
 
 Ridelta shows how a two-sided ride marketplace can get more rides from every incentive dollar. It is a portfolio piece for hiring managers and practitioners. It is one web app with a landing page and three connected modules: Target, Sponsor and Prove.
 
+## Why
+
+Ride marketplaces spend heavily on rider offers, and much of that money goes to riders who would have ridden anyway. Ridelta shows three ways to get more from the same spend: pick riders the offer moves, let stores pay for visits they want, and measure the result with a test that does not mislead. It shows a hiring manager that the author can turn public data into a business decision and be honest about what is known.
+
+## Who it is for
+
+Hiring managers, who should get the answer in under 60 seconds. Practitioners, who should find the method and the exact terms in one click.
+
 ## Rules that apply everywhere
 
 - Never name a ride, taxi, delivery or mobility company. Say "a ride marketplace" or "the platform". scripts/check-names.py checks this before every commit.

@@ -1,4 +1,4 @@
-/* Ridelta UI. Palette B, Ink and gold. Navy means "click this". Gold marks the result to look at. */
+/* Ridelta UI. Palette B, Ink and gold. Navy means "click this". Gold marks the result to look at. Light only (D55). */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fira+Sans:wght@400;500;600;700&display=swap');
 
 :root {
@@ -9,22 +9,6 @@
   --sans: 'Fira Sans', system-ui, sans-serif;
   --mono: 'Fira Code', ui-monospace, monospace;
   color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #131316; --surface: #1C1C21; --sunk: #24242A;
-    --ink: #F2EFE8; --ink-2: #ADA79D; --line: #2F2E33;
-    --action: #A9BCEB; --on-action: #131316;
-    --data: #DDB563; --data-soft: #3A3020; --base: #6F6A62;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #131316; --surface: #1C1C21; --sunk: #24242A;
-  --ink: #F2EFE8; --ink-2: #ADA79D; --line: #2F2E33;
-  --action: #A9BCEB; --on-action: #131316;
-  --data: #DDB563; --data-soft: #3A3020; --base: #6F6A62;
-  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -59,7 +43,6 @@ a { color: var(--action); }
 .menu nav a { display: block; padding: 12px; color: var(--ink); text-decoration: none; border-radius: 8px; }
 .menu nav a:hover { background: var(--sunk); }
 .tabs { display: none; }
-.theme-btn { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); border-radius: 8px; font: 500 13px var(--sans); cursor: pointer; }
 
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: 8px; font: 600 15px var(--sans); border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; cursor: pointer; transition: border-color .15s, background .15s; }

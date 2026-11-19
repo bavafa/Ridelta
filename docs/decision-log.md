@@ -269,7 +269,7 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 
 ### D50. Palette B, Ink and gold
 
-- **Decision:** Ivory paper (#FAF8F3), white cards, near-black ink (#1B1B1F), warm gray text (#5E5A55). Dark navy (#1B2D55) is for actions only. Deep gold (#8A6512) marks the result to look at. Gray (#BDB6A8) marks the options it is compared with. A matching dark mode uses the same roles. This updates D2 and D4.
+- **Decision:** Ivory paper (#FAF8F3), white cards, near-black ink (#1B1B1F), warm gray text (#5E5A55). Dark navy (#1B2D55) is for actions only. Deep gold (#8A6512) marks the result to look at. Gray (#BDB6A8) marks the options it is compared with. This updates D2 and D4.
 - **Why:** Chosen by the owner from three options shown in design/ui/palette-sample.html. The brief asked for minimal, practical, trust-building, hopeful and elegant. Gold reads as value and is dark enough to pass contrast as text.
 
 ### D51. Sample values replace bracketed placeholders
@@ -292,10 +292,10 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 - **Decision:** Sliders, segmented choices and fields are native inputs with labels. Prove marks a changed lever with "changed" until Run is pressed (D17).
 - **Why:** Native inputs give keyboard and screen reader support for free and show the real interaction in the mockup.
 
-### D55. Light and dark switch
+### D55. Light mode only
 
-- **Decision:** The page follows the system setting. A "Light or dark" button in the header overrides it and is remembered in the browser.
-- **Why:** Dark mode was part of the palette choice. The switch lets reviewers see both without changing system settings.
+- **Decision:** The pages have one light look. There is no dark mode and no switch. This updates D50, whose dark set is dropped.
+- **Why:** Ridelta is an illustrative portfolio site. One carefully tuned look serves it better than a second theme that reads less well. It also keeps the gold and navy roles exact.
 
 ## Open items for the next round
 
