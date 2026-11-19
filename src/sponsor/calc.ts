@@ -2,7 +2,7 @@ export type Zone = { id: number; name: string; borough: string; lon: number; lat
 export type Store = { id: string; name: string; cat: string; kind: 'store' | 'mall'; lon: number; lat: number; zone: number };
 export type Data = { sources: Record<string, string>; weeks: number; zones: Zone[]; stores: Store[]; trips: Record<string, Record<string, number>> };
 export type Inputs = { budget: number; fee: number; credit: number; window: number; radius: number; lift: number };
-export type Area = { zone: Zone; miles: number; weeklyTrips: number; rides: number; confirmed: number; extra: number; spend: number; funded: boolean; perDollar: number };
+export type Area = { zone: Zone; miles: number; weeklyTrips: number; rides: number; confirmed: number; extra: number; spend: number; funded: boolean; perDollar: number; share: number };
 
 export const DEFAULTS = { who: 'Single store', budget: 8000, fee: 6, credit: 5, window: 15, radius: 2.5, lift: 12 };
 /** Default store: the one in the given kind with the most trips arriving in its zone. */
@@ -27,7 +27,7 @@ export function miles(aLon: number, aLat: number, bLon: number, bLat: number) {
 }
 
 /**
- * Ranks starting areas by simulated extra visits, then spends the budget down the ranking.
+ * Ranks starting areas by simulated extra visits over the campaign, then spends the budget down the ranking.
  * The sponsor pays the fee for every confirmed visit, caused or not (D41, D46).
  * Extra visits are the share of confirmed visits that the offer caused: lift x nearness x completion per ride.
  */
@@ -41,15 +41,16 @@ export function compute(d: Data, store: Store, i: Inputs) {
     const mi = miles(zone.lon, zone.lat, store.lon, store.lat);
     if (mi > i.radius) continue;
     const m = (i.lift / 100) * nearness(mi, i.radius);
-    areas.push({ zone, miles: mi, weeklyTrips: w, rides: w * CAMPAIGN_WEEKS, confirmed: w * CAMPAIGN_WEEKS * (base + m) * c, extra: w * CAMPAIGN_WEEKS * m * c, spend: 0, funded: false, perDollar: i.fee > 0 ? m / ((base + m) * i.fee) : 0 });
+    areas.push({ zone, miles: mi, weeklyTrips: w, rides: w * CAMPAIGN_WEEKS, confirmed: w * CAMPAIGN_WEEKS * (base + m) * c, extra: w * CAMPAIGN_WEEKS * m * c, spend: 0, funded: false, share: 0, perDollar: i.fee > 0 ? m / ((base + m) * i.fee) : 0 });
   }
-  // Rank by extra visits per sponsor dollar, so a small close area can beat a large far one. Volume breaks ties.
-  areas.sort((a, b) => b.perDollar - a.perDollar || b.weeklyTrips - a.weeklyTrips);
+  // Rank by extra visits over the campaign (volume x effect), so busy areas near the store come first. Value per dollar breaks ties.
+  // The budget then funds areas down this list, so a bigger budget, a longer distance or a different lift changes which areas are funded.
+  areas.sort((a, b) => b.extra - a.extra || b.perDollar - a.perDollar);
   let left = i.budget, rides = 0, confirmed = 0, extra = 0;
   for (const a of areas) {
     const full = a.confirmed * i.fee, share = full > 0 ? Math.min(1, left / full) : 0;
     if (share <= 0) break;
-    a.spend = full * share; a.funded = true; left -= a.spend;
+    a.spend = full * share; a.funded = true; a.share = share; left -= a.spend;
     rides += a.rides * share; confirmed += a.confirmed * share; extra += a.extra * share;
     a.rides *= share; a.confirmed *= share; a.extra *= share;
   }

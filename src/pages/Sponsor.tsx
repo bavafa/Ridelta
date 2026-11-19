@@ -12,7 +12,7 @@ const usd2 = (v: number) => `$${v.toFixed(2)}`;
 
 /** Map of zones around the store. Tier shades and the hatch give the same ranking as the table without color (D20). */
 function ZoneMap({ data, store, areas, radius }: { data: Data; store: Store; areas: Area[]; radius: number }) {
-  const W = 520, H = 400, k = Math.cos((store.lat * Math.PI) / 180);
+  const W = 760, H = 460, k = Math.cos((store.lat * Math.PI) / 180);
   const half = (radius * 1.25) / 69, sy = H / (2 * half), sx = sy * k; // half = degrees of latitude from the store to the map edge
   const px = ([lon, lat]: number[]) => `${((lon - store.lon) * sx + W / 2).toFixed(1)} ${((store.lat - lat) * sy + H / 2).toFixed(1)}`;
   const rank = new Map(areas.map((a, i) => [a.zone.id, i]));
@@ -28,8 +28,11 @@ function ZoneMap({ data, store, areas, radius }: { data: Data; store: Store; are
       </g>
       <g fontFamily="var(--mono)" fontSize="12" textAnchor="middle">
         {areas.slice(0, 5).map((a, i) => { const [x, y] = px([a.zone.lon, a.zone.lat]).split(' '); return (
-          <g key={a.zone.id}><circle cx={x} cy={y} r="13" fill="var(--ink)" /><text x={x} y={+y + 4} fill="var(--paper)">{i + 1}</text></g>); })}
+          <g key={a.zone.id}><circle cx={x} cy={y} r="13" fill="var(--ink)" /><text x={x} y={+y + 4} fill="var(--paper)">{i + 1}</text>
+            <text x={+x + 18} y={+y + 4} textAnchor="start" fontFamily="var(--sans)" fontSize="12" fill="var(--ink)" stroke="var(--paper)" strokeWidth="3" paintOrder="stroke">{a.zone.name}</text></g>); })}
       </g>
+      <circle cx={W / 2} cy={H / 2} r={(radius / 69) * sy} fill="none" stroke="var(--action)" strokeWidth="1.5" strokeDasharray="6 5" />
+      <text x={W / 2} y={H / 2 - (radius / 69) * sy - 6} textAnchor="middle" fontSize="12" fill="var(--action)" fontWeight="600" stroke="var(--paper)" strokeWidth="3" paintOrder="stroke">{radius.toFixed(1)} mi</text>
       {(() => { const [x, y] = px([store.lon, store.lat]).split(' '); return <g><circle cx={x} cy={y} r="9" fill="var(--action)" stroke="var(--surface)" strokeWidth="3" /><text x={+x + 14} y={+y - 6} fontSize="12" fontWeight="600" fill="var(--ink)" stroke="var(--paper)" strokeWidth="3" paintOrder="stroke">Store</text></g>; })()}
     </svg>
   );
@@ -101,24 +104,22 @@ export default function Sponsor() {
                 <div className="row"><Tag kind="real" /> <span className="small">map and trips</span><Tag kind="sim" /> <span className="small">ranking</span></div>
               </div>
               {r.areas.length === 0 ? <p className="muted">No starting areas fall inside this distance. Raise how far riders can start from.</p> : (
-                <div className="map-grid">
-                  <div className="seg view-switch" role="radiogroup" aria-label="Show as"><label><input type="radio" name="v" id="v-list" defaultChecked />List</label><label><input type="radio" name="v" id="v-map" />Map</label></div>
-                  <div className="map-pane">
-                    <ZoneMap data={data} store={store} areas={r.areas} radius={radius} />
-                    <div className="row small muted" style={{ gap: 16, marginTop: 8 }}>
-                      <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="url(#hatch)" /></svg> Top tier</span>
-                      <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="var(--base)" fillOpacity=".45" /></svg> Middle</span>
-                      <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="var(--sunk)" stroke="var(--line)" /></svg> Low</span>
-                    </div>
-                  </div>
-                  <div className="list-pane">
-                    <div className="table-wrap"><table className="table">
-                      <thead><tr><th>Rank</th><th>Area</th><th className="n">Weekly trips</th><th className="n">Extra visits per $</th></tr></thead>
-                      <tbody>{(all ? r.areas : r.areas.slice(0, 5)).map((a, i) => (
-                        <tr key={a.zone.id}><td><span className="rank">{i + 1}</span></td><td>{a.zone.name}{!a.funded && <span className="muted"> · not funded</span>}</td><td className="n">{n0(a.weeklyTrips)}</td><td className="n">{a.perDollar.toFixed(2)}</td></tr>))}</tbody>
-                    </table></div>
-                    <p className="small muted" style={{ marginTop: 10 }}>Trips <Tag kind="real" /> Visits <Tag kind="sim" /></p>
-                    {r.areas.length > 5 && <button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, marginTop: 8, cursor: 'pointer' }} onClick={() => setAll(!all)}>{all ? 'Show top 5' : `Show all ${r.areas.length} areas`}</button>}
+                <div className="stack">
+                  <div className="table-wrap"><table className="table">
+                    <thead><tr><th>Rank</th><th>Area</th><th className="n">Weekly trips</th><th className="n">Extra visits</th><th className="n">Per sponsor $</th></tr></thead>
+                    <tbody>{(all ? r.areas : r.areas.slice(0, 8)).map((a, i) => (
+                      <tr key={a.zone.id} className={a.funded ? undefined : 'muted'}><td><span className="rank">{i + 1}</span></td>
+                        <td>{a.zone.name}{!a.funded && <span className="small"> · not funded</span>}{a.funded && a.share < 0.995 && <span className="small muted"> · part funded</span>}</td><td className="n">{n0(a.weeklyTrips)}</td>
+                        <td className="n">{n0(a.extra)}</td><td className="n">{a.perDollar.toFixed(2)}</td></tr>))}</tbody>
+                  </table></div>
+                  <p className="small muted">Trips <Tag kind="real" /> Visits <Tag kind="sim" /> Areas are ranked by extra visits over the campaign. The budget funds them from the top. Extra visits for areas not funded show what they would bring.</p>
+                  {r.areas.length > 8 && <button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setAll(!all)}>{all ? 'Show top 8' : `Show all ${r.areas.length} areas`}</button>}
+                  <ZoneMap data={data} store={store} areas={r.areas} radius={radius} />
+                  <div className="row small muted" style={{ gap: 16 }}>
+                    <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="url(#hatch)" /></svg> Top third</span>
+                    <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="var(--base)" fillOpacity=".45" /></svg> Middle</span>
+                    <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="var(--sunk)" stroke="var(--line)" /></svg> Low</span>
+                    <span>Dashed circle: how far riders can start from</span>
                   </div>
                 </div>)}
             </section>

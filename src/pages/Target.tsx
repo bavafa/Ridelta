@@ -16,27 +16,38 @@ const X0 = 60, X1 = 740, Y0 = 290, Y1 = 40;
 const LX: Record<string, number> = { Random: 0.7, 'Likely riders': 0.7, 'Moved by offer': 0.45 };
 const LINE: Record<string, string> = { Random: '2 5', 'Likely riders': '8 5', 'Moved by offer': '' };
 
-/** reach: the share of riders the offer reaches after the budget cap, and the extra rides there. */
-function Chart({ curves, i, ev, reach }: { curves: Curves; i: { policy: Policy; cutoff: number }; ev: number; reach: { s: number; e: number; capped: boolean } }) {
+export type View = 'Extra rides' | 'Gain over random';
+
+/**
+ * reach: the share of riders the offer reaches after the budget cap, and the extra rides there.
+ * In the gain view every value is shown minus what random picking gives at the same share, which is share x everyone's total.
+ */
+function Chart({ curves, i, ev, reach, view }: { curves: Curves; i: { policy: Policy; cutoff: number }; ev: number; reach: { s: number; e: number; capped: boolean }; view: View }) {
+  const gain = view === 'Gain over random', adj = (s: number, e: number) => (gain ? e - s * ev : e);
   const series = (['Random', 'Likely riders', 'Moved by offer'] as const).map(p => {
     const c = curves[p === 'Random' ? 'random' : p === 'Likely riders' ? 'propensity' : 'uplift'];
-    return { p, pts: [{ s: 0, e: 0 }, ...c.map(q => ({ s: q.s, e: RIDERS * q.s * q.u }))] };
+    return { p, pts: [{ s: 0, e: 0 }, ...c.map(q => ({ s: q.s, e: adj(q.s, RIDERS * q.s * q.u) }))] };
   });
-  const top = Math.max(...series.flatMap(s => s.pts.map(q => q.e)), ev);
-  const step = [100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000].find(k => Math.ceil(top / k) <= 5)!, ymax = Math.ceil(top / step) * step;
-  const x = (s: number) => X0 + s * (X1 - X0), y = (e: number) => Y0 - (e / ymax) * (Y0 - Y1);
-  const ticks = Array.from({ length: ymax / step + 1 }, (_, k) => k * step);
-  const cx = x(reach.s);
+  const vals = [...series.flatMap(s => s.pts.map(q => q.e)), adj(1, ev), adj(reach.s, reach.e)];
+  const lo = Math.min(0, ...vals), hi = Math.max(...vals);
+  const step = [50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000].find(k => Math.ceil(hi / k) - Math.floor(lo / k) <= 5)!;
+  const ymin = Math.floor(lo / step) * step, ymax = Math.max(Math.ceil(hi / step) * step, ymin + step);
+  const x = (s: number) => X0 + s * (X1 - X0), y = (e: number) => Y0 - ((e - ymin) / (ymax - ymin)) * (Y0 - Y1);
+  const ticks = Array.from({ length: (ymax - ymin) / step + 1 }, (_, k) => ymin + k * step);
+  const cx = x(reach.s), re = adj(reach.s, reach.e), sign = (v: number) => (gain && v > 0 ? '+' : '');
+  const noun = gain ? 'more rides than random' : 'extra rides';
   return (
-    <svg className="chart" viewBox="0 0 760 340" role="img" aria-label={`Extra rides by share of riders reached. Everyone is one point at 100 percent with ${n0(ev)} extra rides. The table below has the same numbers.`}>
-      <g className="grid">{ticks.slice(1).map(t => <line key={t} x1={X0} y1={y(t)} x2={X1} y2={y(t)} />)}</g>
+    <svg className="chart" viewBox="0 0 760 340" role="img" aria-label={gain
+      ? `Extra rides compared with random picking, by share of riders reached. Random is the zero line. Everyone is one point at 100 percent, level with random. The table below has the same numbers.`
+      : `Extra rides by share of riders reached. Everyone is one point at 100 percent with ${n0(ev)} extra rides. The table below has the same numbers.`}>
+      <g className="grid">{ticks.map(t => <line key={t} x1={X0} y1={y(t)} x2={X1} y2={y(t)} stroke={gain && t === 0 ? 'var(--ink-2)' : undefined} strokeDasharray={gain && t === 0 ? '0' : undefined} />)}</g>
       <line className="axis" x1={X0} y1={Y0} x2={X1} y2={Y0} /><line className="axis" x1={X0} y1="20" x2={X0} y2={Y0} />
-      <g className="t" textAnchor="end">{ticks.map(t => <text key={t} x="52" y={y(t) + 4}>{n0(t)}</text>)}</g>
+      <g className="t" textAnchor="end">{ticks.map(t => <text key={t} x="52" y={y(t) + 4}>{sign(t)}{n0(t)}</text>)}</g>
       <g className="t" textAnchor="middle">{[0, 0.25, 0.5, 0.75, 1].map(s => <text key={s} x={x(s)} y="312">{s * 100}%</text>)}</g>
       <text className="t" x="400" y="334" textAnchor="middle">Share of riders who get the offer</text>
       {i.policy !== 'Everyone' && <><line x1={cx} y1="24" x2={cx} y2={Y0} stroke="var(--action)" strokeWidth="1.5" />
-        <text x={cx > 520 ? cx - 6 : cx + 6} y="34" textAnchor={cx > 520 ? 'end' : 'start'} fill="var(--action)" fontSize="12" fontWeight="600">{reach.capped ? 'Your budget stops at' : 'Your cutoff:'} top {Math.round(reach.s * 100)}% · {n0(reach.e)} extra rides</text>
-        <circle cx={cx} cy={y(reach.e)} r="6" fill="var(--data)" stroke="var(--surface)" strokeWidth="2" /></>}
+        <text x={cx > 520 ? cx - 6 : cx + 6} y="34" textAnchor={cx > 520 ? 'end' : 'start'} fill="var(--action)" fontSize="12" fontWeight="600">{reach.capped ? 'Your budget stops at' : 'Your cutoff:'} top {Math.round(reach.s * 100)}% · {sign(re)}{n0(re)} {noun}</text>
+        <circle cx={cx} cy={y(re)} r="6" fill="var(--data)" stroke="var(--surface)" strokeWidth="2" /></>}
       {series.map(({ p, pts }) => {
         const sel = p === i.policy;
         return (
@@ -44,12 +55,12 @@ function Chart({ curves, i, ev, reach }: { curves: Curves; i: { policy: Policy; 
             <path d={pts.map((q, k) => `${k ? 'L' : 'M'}${x(q.s)} ${y(q.e)}`).join(' ')} fill="none" strokeLinejoin="round"
               stroke={sel ? 'var(--data)' : 'var(--ink-2)'} strokeWidth={sel ? 3.5 : 2} strokeDasharray={LINE[p]} />
             {/* Labels sit apart: Random below its line, the others above theirs. */}
-            <text className={sel ? 'tl' : 't'} x={x(LX[p])} y={y(pts.find(q => q.s >= LX[p])!.e) + (p === 'Random' ? 18 : -8)} fill={sel ? 'var(--data)' : undefined}>{p}</text>
+            <text className={sel ? 'tl' : 't'} x={x(gain && p === 'Random' ? 0.5 : LX[p])} y={y(pts.find(q => q.s >= (gain && p === 'Random' ? 0.5 : LX[p]))!.e) + (p === 'Random' && !gain ? 18 : -8)} fill={sel ? 'var(--data)' : undefined}>{p}{gain && p === 'Random' ? ' (baseline)' : ''}</text>
           </g>
         );
       })}
-      <rect x={X1 - 7} y={y(ev) - 7} width="14" height="14" fill={i.policy === 'Everyone' ? 'var(--data)' : 'var(--ink)'} />
-      <text className="t" x={X1 - 15} y={y(ev) - 12} textAnchor="end">Everyone · {n0(ev)}</text>
+      <rect x={X1 - 7} y={y(adj(1, ev)) - 7} width="14" height="14" fill={i.policy === 'Everyone' ? 'var(--data)' : 'var(--ink)'} />
+      <text className="t" x={X1 - 15} y={y(adj(1, ev)) - 12} textAnchor="end">{gain ? 'Everyone' : `Everyone · ${n0(ev)}`}</text>
     </svg>
   );
 }
@@ -58,7 +69,7 @@ export default function Target() {
   const { data, err, retry } = useJson<Data>('data/target.json');
   const [budget, setBudget] = useState(D.budget), [discount, setDiscount] = useState(D.discount), [policy, setPolicy] = useState(D.policy);
   const [cutoff, setCutoff] = useState(D.cutoff), [profitText, setProfit] = useState(D.profit);
-  const tableRef = useRef<HTMLElement>(null);
+  const tableRef = useRef<HTMLElement>(null), [view, setView] = useState<View>('Extra rides');
 
   const profit = parseFloat(profitText.replace(/[^0-9.]/g, '')) || 0;
   const calc = useMemo(() => {
@@ -98,10 +109,13 @@ export default function Target() {
 
             <section className="card">
               <div className="chart-head">
-                <div><h2 className="h3">Extra rides as more riders get the offer</h2><p className="small muted">Each line is one way to pick riders. Higher and earlier is better.</p></div>
+                <div><h2 className="h3">Extra rides as more riders get the offer</h2><p className="small muted">{view === 'Extra rides' ? 'Each line is one way to pick riders. Higher and earlier is better.' : 'Each line shows the rides one way of picking adds on top of random picking. Above zero is better than random.'}</p></div>
                 <div className="row"><Tag kind="est" /><button type="button" className="link" style={{ background: 'none', border: 0, cursor: 'pointer' }} onClick={() => tableRef.current?.scrollIntoView({ behavior: 'smooth' })}>View as table</button></div>
               </div>
-              <Chart curves={data.curves} i={{ policy, cutoff }} ev={calc.rows[0].r.extra} reach={{ s: calc.sel.reached / RIDERS, e: calc.sel.extra, capped: calc.sel.reached / RIDERS < cutoff / 100 - 1e-9 }} />
+              <div className="seg" role="radiogroup" aria-label="Chart view" style={{ maxWidth: 360, marginBottom: 12 }}>
+                {(['Extra rides', 'Gain over random'] as const).map(v => <label key={v}><input type="radio" name="view" checked={view === v} onChange={() => setView(v)} />{v}</label>)}
+              </div>
+              <Chart view={view} curves={data.curves} i={{ policy, cutoff }} ev={calc.rows[0].r.extra} reach={{ s: calc.sel.reached / RIDERS, e: calc.sel.extra, capped: calc.sel.reached / RIDERS < cutoff / 100 - 1e-9 }} />
             </section>
 
             <section className="card" ref={tableRef}>

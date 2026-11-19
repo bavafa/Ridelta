@@ -32,7 +32,7 @@ test('areas beyond the radius are dropped', () => {
 });
 
 test('holdout plan lengthens when volume is low', () => {
-  const area = (w: number) => ({ zone: zone(1), miles: 0, weeklyTrips: w, rides: 0, confirmed: 0, extra: 0, spend: 0, funded: true, perDollar: 0 });
+  const area = (w: number) => ({ zone: zone(1), miles: 0, weeklyTrips: w, rides: 0, confirmed: 0, extra: 0, spend: 0, funded: true, share: 1, perDollar: 0 });
   const big = holdoutPlan(Array(12).fill(0).map(() => area(500)));
   const small = holdoutPlan(Array(12).fill(0).map(() => area(5)));
   expect(big.weeks).toBeLessThan(small.weeks);

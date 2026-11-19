@@ -320,7 +320,7 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 - **Why:** The test is randomized, so the held-out difference in means is a fair measure of uplift. Curve points are all the page needs and keep the derived files small.
 
 ### D61. Sponsor data and model
-- **Decision:** Trips come from one month (2025-09) of the NYC high-volume for-hire file, read as zone-to-zone counts only. Stores come from Overture Maps Places (10 store types and shopping centers, confidence 0.9 or higher, 175 in total). The page ranks starting areas by extra visits per sponsor dollar. It spends the budget down the ranking and pays the fee for every confirmed visit.
+- **Decision:** Trips come from one month (2025-09) of the NYC high-volume for-hire file, read as zone-to-zone counts only. Stores come from Overture Maps Places (10 store types and shopping centers, confidence 0.9 or higher, 175 in total). The page ranks starting areas by extra visits over the campaign (see D70). It spends the budget down the ranking and pays the fee for every confirmed visit.
 - **Why:** Only zone-level counts are needed, so the published file is 373 KB. Rank by value per dollar keeps the order stable when the budget changes.
 
 ### D62. Sponsor placeholders
@@ -354,6 +354,10 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 ### D69. Load states and writing check
 - **Decision:** Target and Sponsor show "Loading the data" and, on failure, a message with a Try again button. scripts/check-writing.py fails CI on em dashes and contractions in src. Link-style buttons are 44 px tall.
 - **Why:** A failed file load must not leave a blank page (E7). The writing rules from the PRD are easy to break by accident. Lighthouse has not been run. It needs a download that was not approved, so the 90 score target is unchecked.
+
+### D70. Sponsor ranking, layout and map; Target gain view
+- **Decision:** Sponsor ranks areas by extra visits over the campaign (volume x effect), not by extra visits per dollar. The per-dollar value stays as a column. Areas are marked "not funded" or "part funded" from the budget. The table sits above the map at full width, with five columns, and the map is larger with a dashed circle for the distance lever and names beside the top five areas. The list and map switch on mobile is gone because the two now stack. Target gets a second chart view, "Gain over random", that plots each way of picking minus random at the same share of riders.
+- **Why:** Per-dollar value depended only on distance, so the order and the funded areas barely moved when levers moved. Ranking by extra visits makes the budget, the distance and the lift change which areas are funded. The wide table hid its last column beside the map. The gain view shows the benefit that the raw curves hide: it peaks near 35 to 40 percent of riders and returns to zero at 100 percent.
 
 ## Open items for the next round
 
