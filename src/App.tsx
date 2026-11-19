@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
+import { Assumptions, CaseStudy, DataMethod } from './pages/About';
 import Landing from './pages/Landing';
 import Prove from './pages/Prove';
 import Sponsor from './pages/Sponsor';
@@ -13,6 +14,9 @@ export default function App() {
         <Route path="/target" element={<Target />} />
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/prove" element={<Prove />} />
+        <Route path="/assumptions" element={<Assumptions />} />
+        <Route path="/data" element={<DataMethod />} />
+        <Route path="/case-study" element={<CaseStudy />} />
         <Route path="*" element={<Landing />} />
       </Routes>
     </Layout>

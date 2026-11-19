@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Advanced, Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
-import { compute, holdoutPlan, type Area, type Data, type Store } from '../sponsor/calc';
+import { Advanced, DataState, Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
+import { compute, DEFAULTS, defaultStore, holdoutPlan, type Area, type Data, type Store } from '../sponsor/calc';
+import { useJson } from '../useJson';
 import { ModuleFrame } from './Module';
 
-const D = { who: 'Single store', budget: 8000, fee: 6, credit: 5, window: 15, radius: 2.5, lift: 12 };
+const D = DEFAULTS;
 const n0 = (v: number) => Math.round(v).toLocaleString('en-US');
 const usd = (v: number) => `${v < 0 ? '−' : ''}$${Math.abs(Math.round(v)).toLocaleString('en-US')}`;
 const usd2 = (v: number) => `$${v.toFixed(2)}`;
@@ -35,20 +36,14 @@ function ZoneMap({ data, store, areas, radius }: { data: Data; store: Store; are
 }
 
 export default function Sponsor() {
-  const [data, setData] = useState<Data | null>(null), [err, setErr] = useState(false);
+  const { data, err, retry } = useJson<Data>('data/sponsor.json');
   const [who, setWho] = useState(D.who), [budget, setBudget] = useState(D.budget), [fee, setFee] = useState(D.fee), [credit, setCredit] = useState(D.credit);
   const [window_, setWindow] = useState(D.window), [radius, setRadius] = useState(D.radius), [lift, setLift] = useState(D.lift);
   const [storeId, setStoreId] = useState<Record<string, string>>({}), [text, setText] = useState<string | null>(null), [all, setAll] = useState(false);
-  useEffect(() => { fetch('data/sponsor.json').then(r => r.json()).then(setData).catch(() => setErr(true)); }, []);
 
   const kind = who === 'Mall operator' ? 'mall' : 'store';
   const pool = useMemo(() => data?.stores.filter(s => s.kind === kind) ?? [], [data, kind]);
-  // Default store: the one with the most trips arriving in its zone.
-  const store = useMemo(() => {
-    if (!data || !pool.length) return null;
-    const vol = (s: Store) => Object.values(data.trips[String(s.zone)] ?? {}).reduce((a, b) => a + b, 0);
-    return pool.find(s => s.id === storeId[kind]) ?? pool.reduce((a, b) => (vol(b) > vol(a) ? b : a));
-  }, [data, pool, storeId, kind]);
+  const store = useMemo(() => (data ? pool.find(s => s.id === storeId[kind]) ?? defaultStore(data, kind) : null), [data, pool, storeId, kind]);
   const shown = text ?? store?.name ?? '';
   const onStore = (v: string) => {
     setText(v);
@@ -68,7 +63,7 @@ export default function Sponsor() {
     <ModuleFrame i={1}
       answer={r && store ? <>For <b>{store.name}</b>, a budget of <b>{usd(budget)}</b> reaches <b>{r.funded}</b> starting areas and brings <b>{r.extraPerDollar.toFixed(2)}</b> extra store visits per sponsor dollar. <Tag kind="sim" /></> : 'Loading the results.'}
       source={data && <>Trips: public NYC for-hire trip records, all operators combined. Areas: NYC taxi zones. Stores: Overture Maps Places. <Tag kind="real" /> Extra visits are assumed. <Tag kind="sim" /></>}>
-      {err && <section className="card"><p>The trip data did not load. Reload the page to try again.</p></section>}
+      {!data && <DataState err={err} retry={retry} />}
       <div className="mod-grid">
         <Levers>
           <div className="ctrl" style={{ borderTop: 0, paddingTop: 0 }}><button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={reset}>Reset to defaults</button></div>
@@ -84,7 +79,7 @@ export default function Sponsor() {
           <Slider label="Check-in window" min={5} max={60} step={5} value={window_} onChange={setWindow} fmt={v => `${v} min`} help="How long the rider has to check in after arriving." />
           <Slider label="How far riders can start from" min={0.5} max={10} step={0.5} value={radius} onChange={setRadius} fmt={v => `${v.toFixed(1)} mi`} />
           <Slider label="Extra visits from the offer" min={0} max={50} step={1} value={lift} onChange={setLift} fmt={v => `${v}%`} help="An assumption, not a measurement. The check below would measure it." />
-          <p className="help" style={{ marginTop: 12 }}>Results update as you move a lever.</p>
+          <p className="help" style={{ marginTop: 12 }}>Results update as you move a lever. <Link className="link" to="/assumptions">Why these defaults</Link></p>
         </Levers>
 
         <div className="results">

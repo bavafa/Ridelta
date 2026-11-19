@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Advanced, Field, Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
-import { compute, POLICIES, RIDERS, type Curves, type Policy } from '../target/calc';
+import { Advanced, DataState, Field, Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
+import { compute, DEFAULTS, POLICIES, RIDERS, type Curves, type Policy } from '../target/calc';
+import { useJson } from '../useJson';
 import { ModuleFrame } from './Module';
 
 type Data = { curves: Curves; source: string; url: string };
-const D = { budget: 10000, discount: 20, policy: 'Moved by offer' as Policy, cutoff: 30, profit: '4.50' };
+const D = { ...DEFAULTS, profit: DEFAULTS.profit.toFixed(2) };
 const n0 = (v: number) => Math.round(v).toLocaleString('en-US');
 const usd = (v: number) => (isFinite(v) ? `$${v.toFixed(2)}` : 'n/a');
 const pct = (a: number, b: number) => (b > 0 ? `${a >= b ? '+' : '−'}${Math.abs(Math.round((a / b - 1) * 100))}%` : '');
@@ -52,11 +53,10 @@ function Chart({ curves, i, ev }: { curves: Curves; i: { policy: Policy; cutoff:
 }
 
 export default function Target() {
-  const [data, setData] = useState<Data | null>(null), [err, setErr] = useState(false);
+  const { data, err, retry } = useJson<Data>('data/target.json');
   const [budget, setBudget] = useState(D.budget), [discount, setDiscount] = useState(D.discount), [policy, setPolicy] = useState(D.policy);
   const [cutoff, setCutoff] = useState(D.cutoff), [profitText, setProfit] = useState(D.profit);
   const tableRef = useRef<HTMLElement>(null);
-  useEffect(() => { fetch('data/target.json').then(r => r.json()).then(setData).catch(() => setErr(true)); }, []);
 
   const profit = parseFloat(profitText.replace(/[^0-9.]/g, '')) || 0;
   const calc = useMemo(() => {
@@ -73,8 +73,8 @@ export default function Target() {
   return (
     <ModuleFrame i={0}
       answer={calc ? <>At the same budget, giving the offer to riders it moves brings <b>{pct(calc.moved.extra, calc.random.extra)}</b> more extra rides than giving it to riders at random. <Tag kind="est" /></> : 'Loading the results.'}
-      source={<>Data: a public email test where people were picked at random (64,000 customers). An email stands in for a ride offer. A site visit stands in for a ride. <Tag kind="real" /> <Link className="link" to="/">Why this stand-in works</Link></>}>
-      {err && <section className="card"><p>The test data did not load. Reload the page to try again.</p></section>}
+      source={<>Data: a public email test where people were picked at random (64,000 customers). An email stands in for a ride offer. A site visit stands in for a ride. <Tag kind="real" /> <Link className="link" to="/data">Why this stand-in works</Link></>}>
+      {!data && <DataState err={err} retry={retry} />}
       <div className="mod-grid">
         <Levers>
           <div className="ctrl" style={{ borderTop: 0, paddingTop: 0 }}><button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={reset}>Reset to defaults</button></div>
@@ -83,7 +83,7 @@ export default function Target() {
           <Seg label="Who gets the offer" grid options={[...POLICIES]} value={policy} onChange={v => setPolicy(v as Policy)} />
           <Slider label="How many riders get it" help="Not used when everyone gets the offer." min={5} max={100} step={5} value={cutoff} onChange={setCutoff} fmt={v => `Top ${v}%`} />
           <Field label="Profit per ride" help="What the platform keeps from one ride, before the offer." value={`$${profitText.replace(/^\$/, '')}`} onChange={v => setProfit(v.replace(/^\$/, ''))} />
-          <p className="help" style={{ marginTop: 12 }}>Results update as you move a lever. Offers are capped by the budget.</p>
+          <p className="help" style={{ marginTop: 12 }}>Results update as you move a lever. Offers are capped by the budget. <Link className="link" to="/assumptions">Why these defaults</Link></p>
         </Levers>
 
         <div className="results">

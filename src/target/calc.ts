@@ -10,6 +10,8 @@ export const FARE = 20;
 // Placeholder share of reached riders who use the offer. Also stated on Assumptions (E6).
 export const REDEMPTION = 0.2;
 
+export const DEFAULTS = { budget: 10000, discount: 20, policy: 'Moved by offer' as Policy, cutoff: 30, profit: 4.5 };
+
 export type Inputs = { budget: number; discount: number; policy: Policy; cutoff: number; profit: number };
 export type Result = { reached: number; extra: number; cost: number; costPerExtra: number; returnPerDollar: number; overBudget: boolean };
 

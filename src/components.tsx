@@ -67,3 +67,9 @@ export const Strip = ({ a, b, kind }: { a: [string, string]; b: [string, string]
     <Tag kind={kind} />
   </div>
 );
+
+/** Shown while a module loads its data, or when the load fails (E7). */
+export const DataState = ({ err, retry }: { err: boolean; retry: () => void }) => err ? (
+  <section className="card" role="alert"><h2 className="h3">The data did not load</h2><p className="muted" style={{ marginTop: 8 }}>Check your connection and try again.</p>
+    <button type="button" className="btn" style={{ marginTop: 16 }} onClick={retry}>Try again</button></section>
+) : <section className="card" role="status"><p className="muted">Loading the data.</p></section>;

@@ -4,7 +4,14 @@ export type Data = { sources: Record<string, string>; weeks: number; zones: Zone
 export type Inputs = { budget: number; fee: number; credit: number; window: number; radius: number; lift: number };
 export type Area = { zone: Zone; miles: number; weeklyTrips: number; rides: number; confirmed: number; extra: number; spend: number; funded: boolean; perDollar: number };
 
-// Placeholders for the Assumptions page (E6). None of these come from data.
+export const DEFAULTS = { who: 'Single store', budget: 8000, fee: 6, credit: 5, window: 15, radius: 2.5, lift: 12 };
+/** Default store: the one in the given kind with the most trips arriving in its zone. */
+export function defaultStore(d: Data, kind: 'store' | 'mall') {
+  const vol = (s: Store) => Object.values(d.trips[String(s.zone)] ?? {}).reduce((a, b) => a + b, 0);
+  return d.stores.filter(s => s.kind === kind).reduce<Store | null>((a, b) => (!a || vol(b) > vol(a) ? b : a), null);
+}
+
+// Placeholders, listed on the Assumptions page. None of these come from data.
 export const CAMPAIGN_WEEKS = 4;
 /** Share of rides to the store that would end in a visit with no offer. Malls count any store, so they are higher. */
 export const BASE_VISIT = { store: 0.04, mall: 0.08 };

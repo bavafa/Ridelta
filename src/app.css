@@ -65,3 +65,6 @@
   .map-grid:has(#v-list:checked) .map-pane { display: none; }
   .map-grid:has(#v-map:checked) .list-pane { display: none; }
 }
+
+/* Link-style buttons keep the 44 px touch target (D26). */
+button.link { min-height: 44px; display: inline-flex; align-items: center; font: inherit; font-size: 14px; }

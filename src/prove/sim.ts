@@ -3,6 +3,7 @@ export type Cars = 'Many' | 'Some' | 'Few';
 export type Which = 'Group split' | 'Hour-by-hour' | 'Both';
 export type AreaSize = 'City' | 'Borough' | 'Neighborhood';
 export type Levers = { effect: number; cars: Cars; which: Which; slot: number; area: AreaSize; days: number };
+export const DEFAULTS: Levers = { effect: 0.05, cars: 'Few', which: 'Both', slot: 60, area: 'Neighborhood', days: 14 };
 export type Est = { estimate: number; bias: number; ciWidth: number; coverage: number };
 export type Result = { truth: number; capped: boolean; reps: number; ab?: Est; sb?: Est };
 

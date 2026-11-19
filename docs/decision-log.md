@@ -343,9 +343,20 @@ High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Eac
 - **Decision:** Fixed rules in src/prove/recommend.ts, each with a test: either test when both are within 0.5 points, the hour-by-hour test when it is closer (with the remaining gap named if above 0.5 points), the group split test when it is closer (with the reason: short slots, shared cars in neighborhoods, or fewer independent periods), and a prompt to run both when only one ran.
 - **Why:** The text is built from the numbers on screen, so it always matches them (D24).
 
+### D67. Landing numbers come from module defaults
+- **Decision:** scripts/headlines.ts computes the three landing numbers from each module's defaults and writes public/data/headlines.json. `npm run build` runs it first, and the case study reads the same file. The Target card now compares with random picking at the same budget, not with Everyone. The Prove card shows how many points off each test is with few cars.
+- **Why:** A default changed in one module then changes the landing page on the next build (S2.2). Everyone is not a same-spend baseline (D58), so the landing page must not use it.
+
+### D68. Supporting pages built from existing styles
+- **Decision:** Assumptions, Data and method and Case study reuse the module styles and were not designed separately first (S6.1 asked for designs). Every "Why these defaults" link goes to Assumptions and every source link goes to Data and method.
+- **Why:** The pages are tables and short text, so the shared components cover them. A design review can still change them.
+
+### D69. Load states and writing check
+- **Decision:** Target and Sponsor show "Loading the data" and, on failure, a message with a Try again button. scripts/check-writing.py fails CI on em dashes and contractions in src. Link-style buttons are 44 px tall.
+- **Why:** A failed file load must not leave a blank page (E7). The writing rules from the PRD are easy to break by accident. Lighthouse has not been run. It needs a download that was not approved, so the 90 score target is unchecked.
+
 ## Open items for the next round
 
-- The Assumptions, Case study and Data and method pages are not designed yet.
-- Loading, empty and error states are not designed yet.
-- Real copy for the recommendation rules in Prove.
-- Defaults for rider credit and the check-in window, to be set on the Assumptions page.
+- Visual design review of Assumptions, Data and method and Case study (D68).
+- Lighthouse run on every page (D69).
+- Rider credit and the check-in window are still placeholders and are listed as open on the Assumptions page.

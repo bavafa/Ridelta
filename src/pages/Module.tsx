@@ -24,7 +24,7 @@ export function ModuleFrame({ i, answer, source, children }: { i: number; answer
       {children}
       <div className="row between" style={{ paddingBottom: 80 }}>
         {back ? <Link className="btn" to={back.path}>← Back: {back.name}</Link> : <Link className="btn" to="/">← Home</Link>}
-        {next && <Link className="btn primary" to={next.path}>Next: {next.name} →</Link>}
+        {next ? <Link className="btn primary" to={next.path}>Next: {next.name} →</Link> : <Link className="btn primary" to="/case-study">Read the case study →</Link>}
       </div>
     </main>
   );

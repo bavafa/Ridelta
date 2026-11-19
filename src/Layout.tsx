@@ -6,8 +6,7 @@ export const MODULES = [
   { path: '/sponsor', name: 'Sponsor' },
   { path: '/prove', name: 'Prove' },
 ];
-// shortcut: these pages are not built yet (E6), so they link home. Point them at real routes in E6.
-const ABOUT = ['Assumptions', 'Data and method', 'Case study'];
+const ABOUT = [{ to: '/assumptions', name: 'Assumptions' }, { to: '/data', name: 'Data and method' }, { to: '/case-study', name: 'Case study' }];
 
 const Logo = () => (
   <Link className="logo" to="/" aria-label="Ridelta home">
@@ -25,16 +24,16 @@ export default function Layout({ children }: { children: ReactNode }) {
       <header className="top"><div className="wrap">
         <Logo />
         <nav className="nav" aria-label="Modules">{MODULES.map(m => <NavLink key={m.path} to={m.path}>{m.name}</NavLink>)}</nav>
-        <nav className="nav-right" aria-label="About the data">{ABOUT.map(a => <Link key={a} to="/">{a}</Link>)}</nav>
+        <nav className="nav-right" aria-label="About the data">{ABOUT.map(a => <NavLink key={a.to} to={a.to}>{a.name}</NavLink>)}</nav>
         {/* key remounts the menu on navigation, which closes it */}
         <details className="menu" key={pathname}><summary>Menu</summary><nav aria-label="Site">
-          <Link to="/">Home</Link>{MODULES.map(m => <Link key={m.path} to={m.path}>{m.name}</Link>)}{ABOUT.map(a => <Link key={a} to="/">{a}</Link>)}
+          <Link to="/">Home</Link>{MODULES.map(m => <Link key={m.path} to={m.path}>{m.name}</Link>)}{ABOUT.map(a => <NavLink key={a.to} to={a.to}>{a.name}</NavLink>)}
         </nav></details>
       </div></header>
       {isModule && <nav className="tabs" aria-label="Modules">{MODULES.map(m => <NavLink key={m.path} to={m.path}>{m.name}</NavLink>)}</nav>}
       {children}
       <footer className="foot"><div className="wrap"><span>Ridelta · a portfolio project</span>
-        <a href="https://github.com/bavafa/Ridelta">Source code</a></div></footer>
+        <Link to="/data">Data and method</Link><a href="https://github.com/bavafa/Ridelta">Source code</a></div></footer>
     </>
   );
 }

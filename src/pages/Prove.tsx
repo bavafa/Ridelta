@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
 import { recommend } from '../prove/recommend';
-import { run, type AreaSize, type Cars, type Levers as L, type Result, type Which } from '../prove/sim';
+import { DEFAULTS, run, type AreaSize, type Cars, type Levers as L, type Result, type Which } from '../prove/sim';
 import { ModuleFrame } from './Module';
 
-const D: L = { effect: 0.05, cars: 'Few', which: 'Both', slot: 60, area: 'Neighborhood', days: 14 };
+const D: L = DEFAULTS;
 const p1 = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(1)}%`;
 const off = (x: number) => `off by ${Math.abs(x * 100).toFixed(1)} points`;
 
@@ -72,7 +72,7 @@ export default function Prove() {
           <Seg label="Area size" changed={changed('area')} options={['City', 'Borough', 'Neighborhood']} value={lv.area} onChange={v => set('area')(v as AreaSize)} />
           <Slider label="How long the test runs" changed={changed('days')} min={7} max={56} step={7} value={lv.days} onChange={set('days')} fmt={v => `${v} days`} />
           <button className="btn primary block" type="button" style={{ marginTop: 12 }} disabled={busy} onClick={() => go(lv)}>{busy ? 'Running…' : 'Run the tests'}</button>
-          <p className="help">Each run takes a few seconds. Results stay on screen until the next run. Changed levers are marked until you run again.</p>
+          <p className="help">Each run takes a few seconds. Results stay on screen until the next run. Changed levers are marked until you run again. <Link className="link" to="/assumptions">Why these defaults</Link></p>
         </Levers>
 
         <div className="results" aria-busy={busy}>
