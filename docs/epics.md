@@ -1,6 +1,6 @@
 # Ridelta epics and stories
 
-Source: docs/PRD.md, docs/decision-log.md and the UI in design/ui. Each epic and story is also a GitHub issue (epics #1 to #29 labeled epic or story) on the board at https://github.com/users/bavafa/projects/5.
+Source: docs/PRD.md, docs/decision-log.md and the UI in design/ui. Each epic and story is also a GitHub issue (issues 1 to 29, labeled epic or story) on the board at https://github.com/users/bavafa/projects/5.
 
 ## E1. App shell and design system
 
