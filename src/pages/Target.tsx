@@ -13,7 +13,7 @@ const pct = (a: number, b: number) => (b > 0 ? `${a >= b ? '+' : '−'}${Math.ab
 
 // Chart frame, same as design/ui/target.html.
 const X0 = 60, X1 = 740, Y0 = 290, Y1 = 40;
-const LX: Record<string, number> = { Random: 0.62, 'Likely riders': 0.62, 'Moved by offer': 0.3 };
+const LX: Record<string, number> = { Random: 0.7, 'Likely riders': 0.7, 'Moved by offer': 0.45 };
 const LINE: Record<string, string> = { Random: '2 5', 'Likely riders': '8 5', 'Moved by offer': '' };
 
 /** reach: the share of riders the offer reaches after the budget cap, and the extra rides there. */
@@ -23,9 +23,9 @@ function Chart({ curves, i, ev, reach }: { curves: Curves; i: { policy: Policy; 
     return { p, pts: [{ s: 0, e: 0 }, ...c.map(q => ({ s: q.s, e: RIDERS * q.s * q.u }))] };
   });
   const top = Math.max(...series.flatMap(s => s.pts.map(q => q.e)), ev);
-  const step = 10 ** Math.floor(Math.log10(top)) / 2, ymax = Math.ceil(top / step / 4) * step * 4;
+  const step = [100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000].find(k => Math.ceil(top / k) <= 5)!, ymax = Math.ceil(top / step) * step;
   const x = (s: number) => X0 + s * (X1 - X0), y = (e: number) => Y0 - (e / ymax) * (Y0 - Y1);
-  const ticks = [0, 1, 2, 3, 4].map(k => (ymax / 4) * k);
+  const ticks = Array.from({ length: ymax / step + 1 }, (_, k) => k * step);
   const cx = x(reach.s);
   return (
     <svg className="chart" viewBox="0 0 760 340" role="img" aria-label={`Extra rides by share of riders reached. Everyone is one point at 100 percent with ${n0(ev)} extra rides. The table below has the same numbers.`}>
@@ -35,9 +35,8 @@ function Chart({ curves, i, ev, reach }: { curves: Curves; i: { policy: Policy; 
       <g className="t" textAnchor="middle">{[0, 0.25, 0.5, 0.75, 1].map(s => <text key={s} x={x(s)} y="312">{s * 100}%</text>)}</g>
       <text className="t" x="400" y="334" textAnchor="middle">Share of riders who get the offer</text>
       {i.policy !== 'Everyone' && <><line x1={cx} y1="24" x2={cx} y2={Y0} stroke="var(--action)" strokeWidth="1.5" />
-        <text x={cx + 6} y="34" fill="var(--action)" fontSize="12" fontWeight="600">{reach.capped ? 'Your budget stops at' : 'Your cutoff:'} top {Math.round(reach.s * 100)}%</text>
-        <circle cx={cx} cy={y(reach.e)} r="6" fill="var(--data)" stroke="var(--surface)" strokeWidth="2" />
-        <text className="tl" x={cx + 10} y={y(reach.e) - 10} fill="var(--data)">{n0(reach.e)} extra rides</text></>}
+        <text x={cx > 520 ? cx - 6 : cx + 6} y="34" textAnchor={cx > 520 ? 'end' : 'start'} fill="var(--action)" fontSize="12" fontWeight="600">{reach.capped ? 'Your budget stops at' : 'Your cutoff:'} top {Math.round(reach.s * 100)}% · {n0(reach.e)} extra rides</text>
+        <circle cx={cx} cy={y(reach.e)} r="6" fill="var(--data)" stroke="var(--surface)" strokeWidth="2" /></>}
       {series.map(({ p, pts }) => {
         const sel = p === i.policy;
         return (
