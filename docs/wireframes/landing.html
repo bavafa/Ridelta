@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta wireframe: Landing</title>
+<link rel="stylesheet" href="wireframes.css">
+</head>
+<body>
+
+<div class="board-head">
+  <h1>1. Landing</h1>
+  <p>Goal: a visitor understands the problem, the answer and the headline results in under 60 seconds, before any controls. No popups. Numbers in brackets are placeholders. <a href="index.html">All views</a></p>
+</div>
+
+<div class="board">
+
+<!-- ===================== DESKTOP 1440 ===================== -->
+<div class="frame-wrap">
+<h2>Desktop · 1440 px</h2>
+<div class="frame desktop">
+
+  <header class="top">
+    <span class="logo">Ridelta</span>
+    <nav class="nav"><a href="target.html">Target</a><a href="sponsor.html">Sponsor</a><a href="prove.html">Prove</a></nav>
+    <div class="nav-right"><span>Assumptions</span><span>Data and method</span><span>Case study</span></div>
+  </header>
+
+  <!-- Hero: problem and answer, about 10 seconds -->
+  <section class="section"><div class="wrap">
+    <p class="eyebrow">A portfolio project in marketplace analytics</p>
+    <h1 class="h1">More rides from every incentive dollar.</h1>
+    <p class="lead">A ride marketplace gives riders offers to book more rides. Some riders change their plans because of an offer. Others would ride anyway. Ridelta shows how to aim offers at the first group, share the cost with stores and prove the result.</p>
+    <div class="row" style="margin-top:32px">
+      <a class="btn primary" href="#results">See the results</a>
+      <a class="btn" href="target.html">Try the model</a>
+    </div>
+    <div class="legend-tags" style="margin-top:32px">
+      <span>Every number carries a label:</span>
+      <span class="tag real">Real</span><span>public data as published</span>
+      <span class="tag est">Estimated</span><span>a model fit on real data</span>
+      <span class="tag sim">Simulated</span><span>a synthetic result from stated assumptions</span>
+    </div>
+    <p class="note"><b>Note</b> The label legend sits in the hero so the visitor learns the three shapes before the first number.</p>
+  </div></section>
+
+  <!-- Headline results: one card per module, about 30 seconds -->
+  <section class="section" id="results"><div class="wrap">
+    <p class="eyebrow">Headline results</p>
+    <h2 class="h2">Three questions, three answers</h2>
+    <div class="grid3" style="margin-top:24px">
+
+      <article class="card stack">
+        <p class="eyebrow">Target</p>
+        <h3 class="h3">Who should get an offer?</h3>
+        <p class="muted">Rank riders by how much an offer changes what they do, not by how likely they are to ride.</p>
+        <div><span class="num">+[00]%</span>
+          <p class="small muted">extra rides compared with giving the offer to everyone, at the same budget</p></div>
+        <span class="tag est">Estimated</span>
+        <div class="ph" style="height:96px">Small extra rides chart preview</div>
+        <a class="btn block" href="target.html">Open Target</a>
+      </article>
+
+      <article class="card stack">
+        <p class="eyebrow">Sponsor</p>
+        <h3 class="h3">Who else can share the cost?</h3>
+        <p class="muted">Stores and malls help pay for rides that bring new shoppers. They pay only when the rider buys something.</p>
+        <div><span class="num">[0.00]</span>
+          <p class="small muted">extra purchases per sponsor dollar</p></div>
+        <span class="tag sim">Simulated</span>
+        <div class="ph" style="height:96px">Small zone map preview</div>
+        <a class="btn block" href="sponsor.html">Open Sponsor</a>
+      </article>
+
+      <article class="card stack">
+        <p class="eyebrow">Prove</p>
+        <h3 class="h3">Did the offer really work?</h3>
+        <p class="muted">When cars are scarce, a group split test can mislead. An hour-by-hour test gets closer to the real effect.</p>
+        <div><span class="num">[00]% vs [0]%</span>
+          <p class="small muted">how far off a group split test is, versus an hour-by-hour test</p></div>
+        <span class="tag sim">Simulated</span>
+        <div class="ph" style="height:96px">Small preview of how close each test got</div>
+        <a class="btn block" href="prove.html">Open Prove</a>
+      </article>
+
+    </div>
+    <p class="note"><b>Note</b> Same card order and shape in all three. Question, answer in one line, one number, one label, one link. Sixty-second reading budget ends here.</p>
+  </div></section>
+
+  <!-- How they connect -->
+  <section class="section"><div class="wrap">
+    <p class="eyebrow">How the modules connect</p>
+    <div class="row" style="align-items:center; margin-top:16px">
+      <div class="card" style="flex:1"><p class="h3">Target</p><p class="muted small">Decides who gets an offer.</p></div>
+      <span class="muted" aria-hidden="true">→</span>
+      <div class="card" style="flex:1"><p class="h3">Sponsor</p><p class="muted small">Decides who helps pay for it.</p></div>
+      <span class="muted" aria-hidden="true">→</span>
+      <div class="card" style="flex:1"><p class="h3">Prove</p><p class="muted small">Checks whether it worked.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Honesty -->
+  <section class="section"><div class="wrap row" style="justify-content:space-between; align-items:center">
+    <div style="max-width:720px">
+      <h2 class="h2">What is real and what is not</h2>
+      <p class="muted" style="margin-top:8px">Ridelta uses public data and stand-in data. It uses no company financial figures. Every default has a stated reason.</p>
+    </div>
+    <div class="row"><a class="btn" href="#">Assumptions</a><a class="btn" href="#">Data and method</a></div>
+  </div></section>
+
+  <footer class="foot"><span>Ridelta · a portfolio project</span><span>About me</span><span>Source code</span><span>Contact</span></footer>
+</div>
+</div>
+
+<!-- ===================== MOBILE 390 ===================== -->
+<div class="frame-wrap">
+<h2>Mobile · 390 px</h2>
+<div class="frame mobile">
+
+  <header class="top">
+    <span class="logo">Ridelta</span>
+    <span class="menu-btn">Menu</span>
+  </header>
+
+  <section class="section"><div class="wrap">
+    <p class="eyebrow">Portfolio project</p>
+    <h1 class="h1">More rides from every incentive dollar.</h1>
+    <p class="lead">A ride marketplace gives riders offers to book more rides. Some riders change their plans because of an offer. Others would ride anyway. Ridelta shows how to aim offers at the first group, share the cost with stores and prove the result.</p>
+    <a class="btn primary block" style="margin-top:24px" href="#m-results">See the results</a>
+    <div class="legend-tags" style="margin-top:20px; gap:8px">
+      <span class="tag real">Real</span><span class="tag est">Estimated</span><span class="tag sim">Simulated</span>
+      <span class="small">Each number carries one of these labels.</span>
+    </div>
+  </div></section>
+
+  <section class="section" id="m-results"><div class="wrap">
+    <p class="eyebrow">Headline results</p>
+    <div class="grid3" style="margin-top:12px">
+      <article class="card stack">
+        <p class="eyebrow">Target</p>
+        <h3 class="h3">Who should get an offer?</h3>
+        <div><span class="num">+[00]%</span><p class="small muted">extra rides compared with giving the offer to everyone, same budget</p></div>
+        <span class="tag est">Estimated</span>
+        <a class="btn block" href="target.html">Open Target</a>
+      </article>
+      <article class="card stack">
+        <p class="eyebrow">Sponsor</p>
+        <h3 class="h3">Who else can share the cost?</h3>
+        <div><span class="num">[0.00]</span><p class="small muted">extra purchases per sponsor dollar</p></div>
+        <span class="tag sim">Simulated</span>
+        <a class="btn block" href="sponsor.html">Open Sponsor</a>
+      </article>
+      <article class="card stack">
+        <p class="eyebrow">Prove</p>
+        <h3 class="h3">Did the offer really work?</h3>
+        <div><span class="num">[00]% vs [0]%</span><p class="small muted">how far off a group split test is, versus an hour-by-hour test</p></div>
+        <span class="tag sim">Simulated</span>
+        <a class="btn block" href="prove.html">Open Prove</a>
+      </article>
+    </div>
+    <p class="note"><b>Note</b> Mobile cards drop the one-line answer and the chart preview to stay inside the reading budget.</p>
+  </div></section>
+
+  <section class="section"><div class="wrap stack">
+    <h2 class="h2">What is real and what is not</h2>
+    <p class="muted">Ridelta uses public data and stand-in data. It uses no company financial figures.</p>
+    <a class="btn block" href="#">Assumptions</a>
+    <a class="btn block" href="#">Data and method</a>
+  </div></section>
+
+  <footer class="foot"><span>About me</span><span>Source code</span><span>Contact</span></footer>
+</div>
+</div>
+
+</div>
+</body>
+</html>

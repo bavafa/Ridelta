@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta wireframe: Sponsor</title>
+<link rel="stylesheet" href="wireframes.css">
+</head>
+<body>
+
+<div class="board-head">
+  <h1>3. Sponsor</h1>
+  <p>A store or a mall operator helps pay for ride offers from the areas most likely to bring new shoppers. The sponsor pays its share only when the rider buys something. Numbers in brackets are placeholders. <a href="index.html">All views</a></p>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#94A3B8"/><line x1="0" y1="0" x2="0" y2="6" stroke="#0F172A" stroke-width="2"/>
+    </pattern>
+  </defs>
+</svg>
+
+<div class="board">
+
+<!-- ===================== DESKTOP 1440 ===================== -->
+<div class="frame-wrap">
+<h2>Desktop · 1440 px</h2>
+<div class="frame desktop">
+
+  <header class="top">
+    <span class="logo">Ridelta</span>
+    <nav class="nav"><a href="target.html">Target</a><a class="on" href="sponsor.html">Sponsor</a><a href="prove.html">Prove</a></nav>
+    <div class="nav-right"><span>Assumptions</span><span>Data and method</span><span>Case study</span></div>
+  </header>
+
+  <div class="wrap">
+    <div class="mod-head">
+      <p class="eyebrow">Module 2 of 3 · Sponsor</p>
+      <h1 class="h2">Which areas should a store or mall sponsor rides from?</h1>
+      <div class="answer">
+        <p>For <b>[Store name]</b>, rides from the top <b>[00]</b> areas bring <b>[0.00]</b> extra purchases per sponsor dollar. <span class="tag sim">Simulated</span></p>
+      </div>
+      <p class="small muted" style="margin-top:12px">Trips: public NYC for-hire trip records, all operators combined. Areas: NYC taxi zones. Stores: open store data. <span class="tag real">Real</span> Extra visits and purchases are assumed. <span class="tag sim">Simulated</span></p>
+    </div>
+
+    <div class="mod-grid">
+      <aside class="controls">
+        <div class="ctrl-top"><span class="h3">Levers</span><a class="reset" href="#">Reset to defaults</a></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Who sponsors</span></div><div class="seg"><span class="on">Single store</span><span>Mall operator</span></div><p class="help">For a mall, the mall operator pays. A purchase at any store in the mall counts.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Store</span></div><div class="select"><span>[Store name]</span><span class="muted small">search</span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Sponsor budget</span><span class="v">$[0,000]</span></div><div class="slider"><span style="left:35%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Most the offer covers per ride</span><span class="v">$[0.00]</span></div><div class="slider"><span style="left:20%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Sponsor share of the discount</span><span class="v">[00]%</span></div><div class="slider"><span style="left:50%"></span></div><p class="help">Paid only when the rider buys something. The platform pays the rest.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>How far riders can start from</span><span class="v">[0.0] mi</span></div><div class="slider"><span style="left:30%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Extra visits from the offer</span><span class="v">[0]%</span></div><div class="slider"><span style="left:15%"></span></div><p class="help">An assumption, not a measurement. The check below would measure it.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Visits that end in a purchase</span><span class="v">[00]%</span></div><div class="slider"><span style="left:40%"></span></div><p class="help">An assumption. The sponsor pays only for these.</p></div>
+        <p class="small muted" style="margin-top:12px"><a class="reset" href="#">Why these defaults</a></p>
+      </aside>
+
+      <main class="stack">
+        <div class="kpis">
+          <div class="kpi"><p class="label">Extra purchases per sponsor dollar</p><p class="num">[0.00]</p><div class="meta"><span></span><span class="tag sim">Simulated</span></div></div>
+          <div class="kpi"><p class="label">Platform cost after sponsor share</p><p class="num">$[0,000]</p><div class="meta"><span></span><span class="tag sim">Simulated</span></div></div>
+          <div class="kpi"><p class="label">Sponsored rides</p><p class="num">[0,000]</p><div class="meta"><span>from trip volumes</span><span class="tag est">Estimated</span></div></div>
+        </div>
+
+        <section class="card">
+          <div class="chart-head">
+            <div><h2 class="h3">Best starting areas for rides to this store</h2><p class="small muted">Areas where a sponsored ride is most likely to bring a new shopper.</p></div>
+            <div class="row" style="gap:8px; align-items:center"><span class="tag real">Real map and trips</span><span class="tag sim">Simulated ranking</span></div>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 420px; gap:24px">
+            <svg viewBox="0 0 600 420" role="img" aria-label="Map placeholder with ranked areas" style="border:1px solid #CBD5E1; border-radius:8px">
+              <rect width="600" height="420" fill="#F8FAFC"/>
+              <g stroke="#FFFFFF" stroke-width="3">
+                <rect x="40" y="40" width="100" height="80" fill="#E2E8F0"/><rect x="140" y="40" width="120" height="80" fill="#CBD5E1"/><rect x="260" y="40" width="110" height="80" fill="#E2E8F0"/><rect x="370" y="40" width="130" height="80" fill="#E2E8F0"/>
+                <rect x="40" y="120" width="100" height="100" fill="#CBD5E1"/><rect x="140" y="120" width="120" height="100" fill="url(#hatch)"/><rect x="260" y="120" width="110" height="100" fill="url(#hatch)"/><rect x="370" y="120" width="130" height="100" fill="#94A3B8"/>
+                <rect x="40" y="220" width="100" height="90" fill="#E2E8F0"/><rect x="140" y="220" width="120" height="90" fill="#94A3B8"/><rect x="260" y="220" width="110" height="90" fill="url(#hatch)"/><rect x="370" y="220" width="130" height="90" fill="#CBD5E1"/>
+                <rect x="40" y="310" width="100" height="70" fill="#E2E8F0"/><rect x="140" y="310" width="120" height="70" fill="#CBD5E1"/><rect x="260" y="310" width="110" height="70" fill="#CBD5E1"/><rect x="370" y="310" width="130" height="70" fill="#E2E8F0"/>
+              </g>
+              <circle cx="300" cy="200" r="150" fill="none" stroke="#1E40AF" stroke-width="2" stroke-dasharray="6 6"/>
+              <g font-size="14" font-weight="700" text-anchor="middle">
+                <circle cx="200" cy="170" r="14" fill="#fff" stroke="#0F172A"/><text x="200" y="175">1</text>
+                <circle cx="315" cy="170" r="14" fill="#fff" stroke="#0F172A"/><text x="315" y="175">2</text>
+                <circle cx="315" cy="265" r="14" fill="#fff" stroke="#0F172A"/><text x="315" y="270">3</text>
+                <circle cx="435" cy="170" r="14" fill="#fff" stroke="#0F172A"/><text x="435" y="175">4</text>
+                <circle cx="200" cy="265" r="14" fill="#fff" stroke="#0F172A"/><text x="200" y="270">5</text>
+              </g>
+              <path d="M300 186 l-10 -18 a12 12 0 1 1 20 0 z" fill="#1E40AF"/>
+              <text x="300" y="214" font-size="12" text-anchor="middle" fill="#1E40AF">Store</text>
+              <g font-size="12" fill="#475569">
+                <rect x="40" y="392" width="14" height="14" fill="url(#hatch)"/><text x="60" y="404">Top tier</text>
+                <rect x="130" y="392" width="14" height="14" fill="#94A3B8"/><text x="150" y="404">Second</text>
+                <rect x="210" y="392" width="14" height="14" fill="#CBD5E1"/><text x="230" y="404">Third</text>
+                <rect x="280" y="392" width="14" height="14" fill="#E2E8F0"/><text x="300" y="404">Not picked</text>
+                <line x1="380" y1="399" x2="410" y2="399" stroke="#1E40AF" stroke-width="2" stroke-dasharray="6 6"/><text x="416" y="404">How far riders start</text>
+              </g>
+            </svg>
+            <div>
+              <table class="table">
+                <thead><tr><th>Rank</th><th>Area</th><th class="n">Weekly trips</th><th class="n">Extra visits</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>[Area name]</td><td class="n">[0,000]</td><td class="n">[00]</td></tr>
+                  <tr><td>2</td><td>[Area name]</td><td class="n">[0,000]</td><td class="n">[00]</td></tr>
+                  <tr><td>3</td><td>[Area name]</td><td class="n">[0,000]</td><td class="n">[00]</td></tr>
+                  <tr><td>4</td><td>[Area name]</td><td class="n">[0,000]</td><td class="n">[00]</td></tr>
+                  <tr><td>5</td><td>[Area name]</td><td class="n">[0,000]</td><td class="n">[00]</td></tr>
+                </tbody>
+              </table>
+              <p class="small muted" style="margin-top:8px">Trips: <span class="tag real">Real</span> Visits: <span class="tag sim">Simulated</span></p>
+              <a class="reset" href="#">Show all [00] areas</a>
+            </div>
+          </div>
+          <p class="note"><b>Note</b> Tiers use fill and a hatch pattern, and the top five carry rank numbers, so the map reads without color. The table is the keyboard and screen reader version of the map.</p>
+        </section>
+
+        <div class="grid3" style="grid-template-columns:1fr 1fr">
+          <section class="card stack">
+            <h2 class="h3">How riders see the offer</h2>
+            <p class="small muted">Riders see it in two places in the ride app.</p>
+            <div class="row" style="gap:16px">
+              <div class="phone">
+                <p class="phone-cap">Banner on the home screen</p>
+                <div class="ph" style="height:56px">Map</div>
+                <div class="offer-banner"><b>Save $[0.00] on a ride to [Store name]</b><span>When you shop there. Sponsored.</span></div>
+              </div>
+              <div class="phone">
+                <p class="phone-cap">Entry in destination search</p>
+                <div class="search-box">[Store na|</div>
+                <div class="search-row sponsored"><b>[Store name]</b><span>Sponsored · Save $[0.00] when you shop</span></div>
+                <div class="search-row"><b>[Place name]</b><span>[Street address]</span></div>
+                <div class="search-row"><b>[Place name]</b><span>[Street address]</span></div>
+              </div>
+            </div>
+            <p class="note"><b>Note</b> The word "Sponsored" is always visible. The sponsored entry sits first and has a border, so it stands apart from normal results.</p>
+          </section>
+
+          <section class="card stack">
+            <h2 class="h3">How payment works</h2>
+            <ol class="steps">
+              <li>The rider sees the offer and takes a discounted ride to the store.</li>
+              <li>The platform covers the discount when the ride ends.</li>
+              <li>At checkout, the rider shows the offer code or a loyalty card.</li>
+              <li>Only then does the sponsor pay its share of the discount.</li>
+            </ol>
+            <p class="small"><b>No purchase, no sponsor payment.</b> The platform keeps the full cost of that ride.</p>
+            <p class="small"><b>Mall operator:</b> the operator pays. A purchase at any store in the mall counts.</p>
+          </section>
+        </div>
+
+        <section class="card">
+          <div class="chart-head"><div><h2 class="h3">How to check this for real</h2><p class="small muted">A simple test a store and the platform could run to measure the real effect.</p></div><span class="tag est">Estimated</span></div>
+          <div class="kpis four">
+            <div><p class="label small muted">Areas with the offer</p><p class="num sm">[00]</p></div>
+            <div><p class="label small muted">Areas without it, for comparison</p><p class="num sm">[00]</p><p class="small muted">similar trip volume</p></div>
+            <div><p class="label small muted">How long</p><p class="num sm">[0] weeks</p></div>
+            <div><p class="label small muted">Smallest change it can spot</p><p class="num sm">[0]%</p></div>
+          </div>
+          <p class="small" style="margin-top:16px"><b>What to compare:</b> purchases from riders in areas with the offer and in areas without it.</p>
+          <div class="row" style="margin-top:16px"><a class="btn" href="#">Copy test plan</a><a class="btn" href="prove.html">Check the design in Prove</a></div>
+        </section>
+
+        <details class="disclose">
+          <summary><span>Advanced: technical names</span><span class="small muted">Show</span></summary>
+          <div class="controls"><p class="small">Starting areas are origin zones. Extra visits are incremental visits. Platform cost after sponsor share is net platform cost. How to check this for real is a holdout test with matched control zones. Smallest change it can spot is the minimum detectable effect. Paying only on purchase is a cost-per-acquisition model.</p></div>
+        </details>
+
+        <div class="row" style="justify-content:space-between"><a class="btn" href="target.html">Back: Target</a><a class="btn" href="prove.html">Next: Prove</a></div>
+      </main>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===================== MOBILE 390 ===================== -->
+<div class="frame-wrap">
+<h2>Mobile · 390 px</h2>
+<div class="frame mobile">
+  <header class="top"><span class="logo">Ridelta</span><span class="menu-btn">Menu</span></header>
+  <nav class="tabs"><a href="target.html">Target</a><a class="on" href="sponsor.html">Sponsor</a><a href="prove.html">Prove</a></nav>
+
+  <div class="wrap">
+    <div class="mod-head">
+      <p class="eyebrow">Module 2 of 3</p>
+      <h1 class="h2">Which areas should a store or mall sponsor rides from?</h1>
+      <div class="answer"><p>For <b>[Store name]</b>, rides from the top <b>[00]</b> areas bring <b>[0.00]</b> extra purchases per sponsor dollar.</p><p style="margin-top:8px"><span class="tag sim">Simulated</span></p></div>
+      <p class="small muted" style="margin-top:12px">Trip, area and store data <span class="tag real">Real</span> Extra visits and purchases <span class="tag sim">Simulated</span></p>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi" style="grid-column:span 2"><p class="label">Extra purchases per sponsor dollar</p><p class="num">[0.00]</p><div class="meta"><span></span><span class="tag sim">Simulated</span></div></div>
+      <div class="kpi"><p class="label">Platform cost after sponsor share</p><p class="num sm">$[0,000]</p><div class="meta"><span class="tag sim">Simulated</span></div></div>
+      <div class="kpi"><p class="label">Sponsored rides</p><p class="num sm">[0,000]</p><div class="meta"><span class="tag est">Estimated</span></div></div>
+    </div>
+
+    <details class="disclose" open style="margin-top:16px">
+      <summary><span>Adjust the levers (8)</span><span class="small muted">Hide</span></summary>
+      <div class="controls">
+        <div class="ctrl"><div class="ctrl-top"><span>Who sponsors</span></div><div class="seg"><span class="on">Single store</span><span>Mall operator</span></div><p class="help">For a mall, the operator pays. A purchase at any store in the mall counts.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Store</span></div><div class="select"><span>[Store name]</span><span class="muted small">search</span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Sponsor budget</span><span class="v">$[0,000]</span></div><div class="slider"><span style="left:35%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Most the offer covers per ride</span><span class="v">$[0.00]</span></div><div class="slider"><span style="left:20%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Sponsor share of the discount</span><span class="v">[00]%</span></div><div class="slider"><span style="left:50%"></span></div><p class="help">Paid only when the rider buys something.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>How far riders can start from</span><span class="v">[0.0] mi</span></div><div class="slider"><span style="left:30%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Extra visits from the offer</span><span class="v">[0]%</span></div><div class="slider"><span style="left:15%"></span></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Visits that end in a purchase</span><span class="v">[00]%</span></div><div class="slider"><span style="left:40%"></span></div></div>
+        <a class="reset" href="#">Reset to defaults</a>
+      </div>
+    </details>
+    <p class="note"><b>Note</b> Shown open so the new "Who sponsors" lever is visible. Closed by default on first visit.</p>
+
+    <section class="card" style="margin-top:16px">
+      <div class="chart-head"><h2 class="h3">Best starting areas</h2></div>
+      <div class="seg" style="margin:0 0 12px"><span class="on">List</span><span>Map</span></div>
+      <table class="table">
+        <thead><tr><th>#</th><th>Area</th><th class="n">Extra visits</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>[Area name]</td><td class="n">[00]</td></tr>
+          <tr><td>2</td><td>[Area name]</td><td class="n">[00]</td></tr>
+          <tr><td>3</td><td>[Area name]</td><td class="n">[00]</td></tr>
+          <tr><td>4</td><td>[Area name]</td><td class="n">[00]</td></tr>
+          <tr><td>5</td><td>[Area name]</td><td class="n">[00]</td></tr>
+        </tbody>
+      </table>
+      <p class="small muted" style="margin-top:8px"><span class="tag sim">Simulated ranking</span></p>
+      <a class="reset" href="#">Show all [00] areas</a>
+    </section>
+
+    <section class="card stack" style="margin-top:16px">
+      <h2 class="h3">How riders see the offer</h2>
+      <div class="phone" style="width:100%">
+        <p class="phone-cap">Banner on the home screen</p>
+        <div class="offer-banner"><b>Save $[0.00] on a ride to [Store name]</b><span>When you shop there. Sponsored.</span></div>
+      </div>
+      <div class="phone" style="width:100%">
+        <p class="phone-cap">Entry in destination search</p>
+        <div class="search-box">[Store na|</div>
+        <div class="search-row sponsored"><b>[Store name]</b><span>Sponsored · Save $[0.00] when you shop</span></div>
+        <div class="search-row"><b>[Place name]</b><span>[Street address]</span></div>
+      </div>
+    </section>
+
+    <section class="card stack" style="margin-top:16px">
+      <h2 class="h3">How payment works</h2>
+      <ol class="steps">
+        <li>The rider takes a discounted ride to the store.</li>
+        <li>The platform covers the discount when the ride ends.</li>
+        <li>At checkout, the rider shows the code or a loyalty card.</li>
+        <li>Only then does the sponsor pay its share.</li>
+      </ol>
+      <p class="small"><b>No purchase, no sponsor payment.</b></p>
+      <p class="small"><b>Mall operator:</b> a purchase at any store in the mall counts.</p>
+    </section>
+
+    <section class="card stack" style="margin-top:16px">
+      <div class="chart-head"><h2 class="h3">How to check this for real</h2><span class="tag est">Estimated</span></div>
+      <div class="kpis">
+        <div><p class="small muted">Areas with the offer</p><p class="num sm">[00]</p></div>
+        <div><p class="small muted">Areas without it</p><p class="num sm">[00]</p></div>
+        <div><p class="small muted">How long</p><p class="num sm">[0] wk</p></div>
+        <div><p class="small muted">Smallest change</p><p class="num sm">[0]%</p></div>
+      </div>
+      <p class="small"><b>What to compare:</b> purchases from riders in areas with the offer and in areas without it.</p>
+      <a class="btn block" href="#">Copy test plan</a>
+    </section>
+
+    <details class="disclose" style="margin-top:16px"><summary><span>Advanced: technical names</span><span class="small muted">Show</span></summary></details>
+
+    <a class="btn block" style="margin:24px 0" href="prove.html">Next: Prove</a>
+  </div>
+
+  <div class="strip">
+    <div><p class="small muted">Purchases per sponsor $</p><p class="num">[0.00]</p></div>
+    <div><p class="small muted">Platform cost</p><p class="num">$[0,000]</p></div>
+    <span class="tag sim">Simulated</span>
+  </div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
