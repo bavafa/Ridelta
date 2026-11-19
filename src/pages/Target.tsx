@@ -16,7 +16,8 @@ const X0 = 60, X1 = 740, Y0 = 290, Y1 = 40;
 const LX: Record<string, number> = { Random: 0.62, 'Likely riders': 0.62, 'Moved by offer': 0.3 };
 const LINE: Record<string, string> = { Random: '2 5', 'Likely riders': '8 5', 'Moved by offer': '' };
 
-function Chart({ curves, i, ev }: { curves: Curves; i: { policy: Policy; cutoff: number }; ev: number }) {
+/** reach: the share of riders the offer reaches after the budget cap, and the extra rides there. */
+function Chart({ curves, i, ev, reach }: { curves: Curves; i: { policy: Policy; cutoff: number }; ev: number; reach: { s: number; e: number; capped: boolean } }) {
   const series = (['Random', 'Likely riders', 'Moved by offer'] as const).map(p => {
     const c = curves[p === 'Random' ? 'random' : p === 'Likely riders' ? 'propensity' : 'uplift'];
     return { p, pts: [{ s: 0, e: 0 }, ...c.map(q => ({ s: q.s, e: RIDERS * q.s * q.u }))] };
@@ -25,7 +26,7 @@ function Chart({ curves, i, ev }: { curves: Curves; i: { policy: Policy; cutoff:
   const step = 10 ** Math.floor(Math.log10(top)) / 2, ymax = Math.ceil(top / step / 4) * step * 4;
   const x = (s: number) => X0 + s * (X1 - X0), y = (e: number) => Y0 - (e / ymax) * (Y0 - Y1);
   const ticks = [0, 1, 2, 3, 4].map(k => (ymax / 4) * k);
-  const cx = x(i.cutoff / 100);
+  const cx = x(reach.s);
   return (
     <svg className="chart" viewBox="0 0 760 340" role="img" aria-label={`Extra rides by share of riders reached. Everyone is one point at 100 percent with ${n0(ev)} extra rides. The table below has the same numbers.`}>
       <g className="grid">{ticks.slice(1).map(t => <line key={t} x1={X0} y1={y(t)} x2={X1} y2={y(t)} />)}</g>
@@ -34,7 +35,9 @@ function Chart({ curves, i, ev }: { curves: Curves; i: { policy: Policy; cutoff:
       <g className="t" textAnchor="middle">{[0, 0.25, 0.5, 0.75, 1].map(s => <text key={s} x={x(s)} y="312">{s * 100}%</text>)}</g>
       <text className="t" x="400" y="334" textAnchor="middle">Share of riders who get the offer</text>
       {i.policy !== 'Everyone' && <><line x1={cx} y1="24" x2={cx} y2={Y0} stroke="var(--action)" strokeWidth="1.5" />
-        <text x={cx + 6} y="34" fill="var(--action)" fontSize="12" fontWeight="600">Your cutoff: top {i.cutoff}%</text></>}
+        <text x={cx + 6} y="34" fill="var(--action)" fontSize="12" fontWeight="600">{reach.capped ? 'Your budget stops at' : 'Your cutoff:'} top {Math.round(reach.s * 100)}%</text>
+        <circle cx={cx} cy={y(reach.e)} r="6" fill="var(--data)" stroke="var(--surface)" strokeWidth="2" />
+        <text className="tl" x={cx + 10} y={y(reach.e) - 10} fill="var(--data)">{n0(reach.e)} extra rides</text></>}
       {series.map(({ p, pts }) => {
         const sel = p === i.policy;
         return (
@@ -99,7 +102,7 @@ export default function Target() {
                 <div><h2 className="h3">Extra rides as more riders get the offer</h2><p className="small muted">Each line is one way to pick riders. Higher and earlier is better.</p></div>
                 <div className="row"><Tag kind="est" /><button type="button" className="link" style={{ background: 'none', border: 0, cursor: 'pointer' }} onClick={() => tableRef.current?.scrollIntoView({ behavior: 'smooth' })}>View as table</button></div>
               </div>
-              <Chart curves={data.curves} i={{ policy, cutoff }} ev={calc.rows[0].r.extra} />
+              <Chart curves={data.curves} i={{ policy, cutoff }} ev={calc.rows[0].r.extra} reach={{ s: calc.sel.reached / RIDERS, e: calc.sel.extra, capped: calc.sel.reached / RIDERS < cutoff / 100 - 1e-9 }} />
             </section>
 
             <section className="card" ref={tableRef}>
