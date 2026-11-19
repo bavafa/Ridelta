@@ -1,0 +1,28 @@
+/* Landing page styles, moved from design/ui/landing.html. */
+.hero { padding: 88px 0 72px; border-bottom: 1px solid var(--line); }
+.hero .h1 { max-width: 820px; margin-top: 16px; }
+.hero .lead { margin-top: 20px; }
+.hero .row { margin-top: 32px; }
+.legend { margin-top: 40px; display: grid; grid-template-columns: repeat(3, auto) 1fr; gap: 12px 28px; align-items: center; font-size: 14px; color: var(--ink-2); }
+.legend div { display: flex; gap: 10px; align-items: center; }
+.landing-results { padding: 72px 0; }
+.landing-results .grid3 { margin-top: 28px; }
+.rcard { display: flex; flex-direction: column; gap: 14px; transition: border-color .15s; }
+.rcard:hover { border-color: var(--base); }
+.rcard .btn { margin-top: auto; }
+.rcard .what { font-size: 14px; color: var(--ink-2); margin-top: 6px; }
+.flow { padding: 64px 0; border-top: 1px solid var(--line); }
+.flow ol { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 24px; counter-reset: s; }
+.flow li { position: relative; padding: 24px 24px 0 0; border-top: 2px solid var(--ink); }
+.flow li::before { counter-increment: s; content: "0" counter(s); font: 500 13px var(--mono); color: var(--data); display: block; margin-bottom: 8px; }
+.honest { padding: 64px 0 80px; border-top: 1px solid var(--line); }
+.honest .card { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; background: var(--sunk); }
+@media (max-width: 960px) {
+  .hero { padding: 48px 0 40px; }
+  .legend { grid-template-columns: 1fr; gap: 10px; margin-top: 28px; }
+  .landing-results { padding: 40px 0; }
+  .rcard .mini, .rcard .one { display: none; } /* D7: mobile drops the answer line and preview */
+  .flow ol { grid-template-columns: 1fr; gap: 20px; }
+  .flow, .honest { padding: 40px 0; }
+  .hero .row .btn { flex: 1; }
+}
