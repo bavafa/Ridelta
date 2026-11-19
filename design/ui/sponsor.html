@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta Sponsor</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="icon" href="logo.svg">
+<style>
+.map-grid { display: grid; grid-template-columns: 1fr 400px; gap: 28px; }
+.view-switch { display: none; }
+.check { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.check .ok { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+.check .ok b::before { content: "✓ "; color: var(--data); }
+.phones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.phone { border: 1px solid var(--line); background: var(--paper); border-radius: 24px; padding: 14px 12px 16px; display: flex; flex-direction: column; gap: 10px; min-height: 280px; }
+.phone .cap { font: 500 11px var(--mono); color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
+.phone .mapbit { height: 64px; border-radius: 12px; background: repeating-linear-gradient(45deg, var(--sunk) 0 8px, var(--surface) 8px 16px); }
+.offer { border: 1px solid var(--ink); border-radius: 12px; background: var(--surface); padding: 10px 12px; font-size: 13px; display: flex; flex-direction: column; gap: 4px; }
+.offer b { font-size: 14px; }
+.offer .muted { font-size: 12.5px; line-height: 1.4; }
+.spons { align-self: flex-start; font: 600 10.5px var(--sans); text-transform: uppercase; letter-spacing: .05em; border: 1px solid var(--ink-2); border-radius: 4px; padding: 2px 6px; }
+.sbox { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; font-size: 13px; color: var(--ink-2); }
+.srow { padding: 6px 4px; border-bottom: 1px solid var(--line); font-size: 13px; display: flex; flex-direction: column; }
+.mt { font-weight: 700; font-size: 15px; line-height: 1.3; }
+.ml { font-size: 13px; color: var(--ink-2); }
+.mf { font-size: 11.5px; color: var(--ink-2); line-height: 1.4; }
+.mbtn { margin-top: auto; text-align: center; border-radius: 10px; min-height: 44px; display: grid; place-items: center; font-weight: 600; font-size: 14px; background: var(--ink); color: var(--paper); }
+.mbtn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); margin-top: 6px; }
+.done-ico { width: 40px; height: 40px; border-radius: 50%; background: var(--data-soft); color: var(--data); display: grid; place-items: center; font-size: 20px; font-weight: 700; }
+.msgs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.msg { border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px; background: var(--paper); }
+.steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+.steps li { font-size: 14px; padding-top: 12px; border-top: 2px solid var(--line); }
+.steps li:last-child { border-color: var(--data); }
+.steps li::before { counter-increment: s; content: counter(s); display: block; font: 500 13px var(--mono); color: var(--data); margin-bottom: 4px; }
+.rank { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--paper); font: 500 12px var(--mono); }
+@media (max-width: 960px) {
+  .map-grid { grid-template-columns: 1fr; }
+  .phones { grid-template-columns: 1fr 1fr; }
+  .msgs, .steps { grid-template-columns: 1fr; }
+  .view-switch { display: grid; margin: 0 0 16px; }
+  .map-grid:has(#v-list:checked) .map-pane { display: none; }
+  .map-grid:has(#v-map:checked) .list-pane { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="landing.html" aria-label="Ridelta home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 L28 20 H4 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="16" cy="22" r="4.2" fill="var(--paper)" stroke="var(--data)" stroke-width="3"/></svg><span class="word">Ridelta</span></a>
+  <nav class="nav" aria-label="Modules"><a href="target.html">Target</a><a href="sponsor.html" aria-current="page">Sponsor</a><a href="prove.html">Prove</a></nav>
+  <nav class="nav-right" aria-label="About the data"><a href="#">Assumptions</a><a href="#">Data and method</a><a href="#">Case study</a><button class="theme-btn" data-theme-toggle>Light or dark</button></nav>
+  <details class="menu"><summary>Menu</summary><nav aria-label="Site"><a href="landing.html">Home</a><a href="#">Assumptions</a><a href="#">Data and method</a><a href="#">Case study</a><button class="theme-btn" style="margin:8px 12px" data-theme-toggle>Light or dark</button></nav></details>
+</div></header>
+<nav class="tabs" aria-label="Modules"><a href="target.html">Target</a><a href="sponsor.html" aria-current="page">Sponsor</a><a href="prove.html">Prove</a></nav>
+
+<main class="wrap">
+  <div class="mod-head">
+    <div class="row between"><p class="eyebrow">Module 2 of 3 · Sponsor</p><span class="sample-note">Sample values, not results</span></div>
+    <h1 class="h2">Which areas should a store or mall sponsor rides from?</h1>
+    <p class="answer">For <b>Hudson Market</b>, rides from the top <b>5</b> areas bring <b>0.05</b> extra store visits per sponsor dollar. <span class="tag sim">Simulated</span></p>
+    <p class="source">Trips: public NYC for-hire trip records, all operators combined. Areas: NYC taxi zones. Stores: open store data. <span class="tag real">Real</span> Extra visits are assumed. <span class="tag sim">Simulated</span></p>
+  </div>
+
+  <div class="mod-grid">
+    <details class="levers" open>
+      <summary><span>Levers</span><span class="chev" aria-hidden="true">⌄</span></summary>
+      <form class="body">
+        <div class="ctrl" style="border-top:0;padding-top:0"><a class="link" href="#">Reset to defaults</a></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Who sponsors</span></div>
+          <div class="seg" role="radiogroup" aria-label="Who sponsors"><label><input type="radio" name="who" checked>Single store</label><label><input type="radio" name="who">Mall operator</label></div>
+          <p class="help"><b>Single store:</b> The store pays for confirmed visits to its own door.</p>
+          <p class="help"><b>Mall:</b> The mall operator pays. A confirmed visit to any entrance or participating store counts.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Store</span></div><input class="field" type="search" value="Hudson Market" aria-label="Store"></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Sponsor budget</span><output></output></div><input type="range" min="1000" max="50000" step="500" value="8000" data-fmt="$#" aria-label="Sponsor budget"></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Fee per confirmed visit</span><output></output></div><input type="range" min="1" max="20" step="0.5" value="6" data-fmt="$#" data-dp="2" aria-label="Fee per confirmed visit"><p class="help">What the sponsor pays each time a rider checks in at the store.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Rider credit</span><output></output></div><input type="range" min="1" max="15" step="0.5" value="5" data-fmt="$#" data-dp="2" aria-label="Rider credit"><p class="help">The discount the rider receives after checking in.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Check-in window</span><output></output></div><input type="range" min="5" max="60" step="5" value="15" data-fmt="# min" aria-label="Check-in window"><p class="help">How long the rider has to check in after arriving.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>How far riders can start from</span><output></output></div><input type="range" min="0.5" max="10" step="0.5" value="2.5" data-fmt="# mi" data-dp="1" aria-label="How far riders can start from"></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Extra visits from the offer</span><output></output></div><input type="range" min="0" max="50" step="1" value="12" data-fmt="#%" aria-label="Extra visits from the offer"><p class="help">An assumption, not a measurement. The check below would measure it.</p></div>
+        <p class="help" style="margin-top:12px"><a class="link" href="#">Why these defaults</a></p>
+      </form>
+    </details>
+
+    <div class="results">
+      <div class="kpis">
+        <div class="kpi"><p class="label">Extra store visits per sponsor dollar</p><p class="num gold">0.05</p><div class="meta"><span>400 extra visits</span><span class="tag sim">Simulated</span></div></div>
+        <div class="kpi"><p class="label">Platform cost after sponsor fees</p><p class="num">−$1,335</p><div class="meta"><span>fees exceed credit</span><span class="tag sim">Simulated</span></div></div>
+        <div class="kpi"><p class="label">Sponsored rides</p><p class="num">1,610</p><div class="meta"><span>from trip volumes</span><span class="tag est">Estimated</span></div></div>
+      </div>
+
+      <div class="check">
+        <p class="small muted" style="max-width:600px">A confirmed visit shows the rider came in. It does not show the offer caused the visit. The test below measures that.</p>
+        <p class="ok"><b>Fee covers rider credit: Yes</b> <span class="tag sim">Simulated</span></p>
+      </div>
+
+      <section class="card">
+        <div class="chart-head">
+          <div><h2 class="h3">Best starting areas for rides to this store</h2><p class="small muted">Areas where a sponsored ride is most likely to bring a new visitor.</p></div>
+          <div class="row"><span class="tag real">Real map and trips</span><span class="tag sim">Simulated ranking</span></div>
+        </div>
+        <div class="map-grid">
+          <div class="seg view-switch" role="radiogroup" aria-label="Show as"><label><input type="radio" name="v" id="v-list" checked>List</label><label><input type="radio" name="v" id="v-map">Map</label></div>
+          <div class="map-pane">
+            <svg class="chart" viewBox="0 0 520 400" role="img" aria-label="Map of starting areas around the store. Top five areas are hatched and numbered. The same ranking is in the table.">
+              <defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="var(--data-soft)"/><line y2="7" stroke="var(--data)" stroke-width="2.5"/></pattern></defs>
+              <path d="M0 0 H520 V400 H0Z" fill="var(--paper)"/>
+              <path d="M410 0 C 380 120, 420 260, 380 400 H520 V0Z" fill="var(--sunk)"/>
+              <text class="t" x="470" y="200" text-anchor="middle" transform="rotate(80 470 200)">River</text>
+              <g stroke="var(--surface)" stroke-width="3" stroke-linejoin="round">
+                <path d="M20 20 L130 10 L150 110 L40 120Z" fill="var(--sunk)"/>
+                <path d="M130 10 L250 18 L240 105 L150 110Z" fill="var(--base)" fill-opacity=".45"/>
+                <path d="M250 18 L370 10 L360 100 L240 105Z" fill="var(--sunk)"/>
+                <path d="M40 120 L150 110 L160 210 L30 220Z" fill="var(--base)" fill-opacity=".45"/>
+                <path d="M150 110 L240 105 L250 200 L160 210Z" fill="url(#hatch)"/>
+                <path d="M240 105 L360 100 L370 195 L250 200Z" fill="url(#hatch)"/>
+                <path d="M30 220 L160 210 L150 310 L25 300Z" fill="var(--sunk)"/>
+                <path d="M160 210 L250 200 L260 300 L150 310Z" fill="url(#hatch)"/>
+                <path d="M250 200 L370 195 L365 295 L260 300Z" fill="url(#hatch)"/>
+                <path d="M25 300 L150 310 L140 390 L20 390Z" fill="var(--sunk)"/>
+                <path d="M150 310 L260 300 L270 390 L140 390Z" fill="url(#hatch)"/>
+                <path d="M260 300 L365 295 L360 390 L270 390Z" fill="var(--base)" fill-opacity=".45"/>
+              </g>
+              <g font-family="var(--mono)" font-size="12" text-anchor="middle">
+                <g><circle cx="200" cy="158" r="13" fill="var(--ink)"/><text x="200" y="162" fill="var(--paper)">1</text></g>
+                <g><circle cx="305" cy="150" r="13" fill="var(--ink)"/><text x="305" y="154" fill="var(--paper)">2</text></g>
+                <g><circle cx="205" cy="258" r="13" fill="var(--ink)"/><text x="205" y="262" fill="var(--paper)">3</text></g>
+                <g><circle cx="310" cy="248" r="13" fill="var(--ink)"/><text x="310" y="252" fill="var(--paper)">4</text></g>
+                <g><circle cx="208" cy="350" r="13" fill="var(--ink)"/><text x="208" y="354" fill="var(--paper)">5</text></g>
+              </g>
+              <g><circle cx="252" cy="200" r="9" fill="var(--action)" stroke="var(--surface)" stroke-width="3"/><text x="266" y="196" font-size="12" font-weight="600" fill="var(--ink)">Store</text></g>
+            </svg>
+            <div class="row small muted" style="gap:16px;margin-top:8px">
+              <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="url(#hatch)"/></svg> Top tier</span>
+              <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="var(--base)" fill-opacity=".45"/></svg> Middle</span>
+              <span><svg width="14" height="14" aria-hidden="true"><rect width="14" height="14" fill="var(--sunk)" stroke="var(--line)"/></svg> Low</span>
+            </div>
+          </div>
+          <div class="list-pane">
+            <div class="table-wrap"><table class="table">
+              <thead><tr><th>Rank</th><th>Area</th><th class="n">Weekly trips</th><th class="n">Extra visits</th></tr></thead>
+              <tbody>
+                <tr><td><span class="rank">1</span></td><td>Chelsea</td><td class="n">3,420</td><td class="n">92</td></tr>
+                <tr><td><span class="rank">2</span></td><td>Flatiron</td><td class="n">2,980</td><td class="n">74</td></tr>
+                <tr><td><span class="rank">3</span></td><td>West Village</td><td class="n">2,610</td><td class="n">61</td></tr>
+                <tr><td><span class="rank">4</span></td><td>Greenwich Village North</td><td class="n">2,240</td><td class="n">48</td></tr>
+                <tr><td><span class="rank">5</span></td><td>Midtown South</td><td class="n">1,870</td><td class="n">39</td></tr>
+              </tbody>
+            </table></div>
+            <p class="small muted" style="margin-top:10px">Trips <span class="tag real">Real</span> Visits <span class="tag sim">Simulated</span></p>
+            <a class="link" href="#" style="display:inline-block;margin-top:8px">Show all 24 areas</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card stack">
+        <div><h2 class="h3">What the rider sees</h2><p class="small muted" style="margin-top:4px">Four moments in the ride app, from offer to credit.</p></div>
+        <div class="phones">
+          <div class="phone">
+            <p class="cap">1 · Home screen</p>
+            <div class="mapbit"></div>
+            <div class="offer"><b>Hudson Market</b><span class="muted">Get up to $5.00 back in ride credit when you check in.</span><span class="spons">Sponsored</span></div>
+          </div>
+          <div class="phone">
+            <p class="cap">1 · Or in search</p>
+            <div class="sbox">Hudson Ma|</div>
+            <div class="offer"><b>Hudson Market</b><span class="muted">Get up to $5.00 back in ride credit when you check in.</span><span class="spons">Sponsored</span></div>
+            <div class="srow"><b>Hudson Yards</b><span class="muted">W 33rd St</span></div>
+          </div>
+          <div class="phone">
+            <p class="cap">2 · After drop-off</p>
+            <p class="mt">You have arrived at Hudson Market</p>
+            <p class="ml">Tap "I am here" within 15 minutes to get your credit.</p>
+            <span class="mbtn">I am here</span>
+            <p class="mf">We check your location only when you tap "I am here." We do not track you after your ride.</p>
+          </div>
+          <div class="phone">
+            <p class="cap">3 · Confirmed</p>
+            <span class="done-ico" aria-hidden="true">✓</span>
+            <p class="mt">Visit confirmed</p>
+            <p class="ml">$5.00 has been added to your ride credit.</p>
+            <span class="mbtn">Done</span>
+          </div>
+        </div>
+        <h3 class="h3" style="font-size:15px">If check-in does not work</h3>
+        <div class="msgs">
+          <div class="msg"><p class="mt">We could not confirm your location</p><p class="ml">Scan the code at the store entrance instead.</p><span class="mbtn ghost">Scan code</span></div>
+          <div class="msg"><p class="mt">The check-in window has ended</p><p class="ml">Offers need a check-in within 15 minutes of arrival.</p><span class="mbtn ghost">Close</span></div>
+          <div class="msg"><p class="mt">Turn on location to check in</p><p class="ml">We use your location only at the moment you tap "I am here."</p><span class="mbtn ghost">Open settings</span></div>
+        </div>
+      </section>
+
+      <section class="card stack">
+        <h2 class="h3">How payment works</h2>
+        <ol class="steps">
+          <li>The rider sees the offer and books a ride to the store.</li>
+          <li>At the store, the rider taps "I am here" within 15 minutes of arriving.</li>
+          <li>The app confirms the visit and adds the discount to the rider's ride credit.</li>
+          <li>The sponsor pays a fixed fee for each confirmed visit, whether or not the rider buys.</li>
+        </ol>
+        <p class="small">Each ride counts once. Visits are checked against the ride, the time and the phone location.</p>
+        <p class="small muted">A visit does not mean the rider bought something. It also does not mean the rider would have stayed home without the offer.</p>
+      </section>
+
+      <section class="card">
+        <div class="chart-head"><div><h2 class="h3">How to check this for real</h2><p class="small muted">A simple test a store and the platform could run to measure whether the offer causes visits.</p></div><span class="tag est">Estimated</span></div>
+        <div class="kpis four">
+          <div><p class="small muted">Areas with the offer</p><p class="num sm">12</p></div>
+          <div><p class="small muted">Areas without it, for comparison</p><p class="num sm">12</p><p class="small muted">similar trip volume</p></div>
+          <div><p class="small muted">How long</p><p class="num sm">6 weeks</p></div>
+          <div><p class="small muted">Smallest change it can spot</p><p class="num sm">8%</p></div>
+        </div>
+        <p class="small" style="margin-top:16px"><b>What to compare:</b> rides that end at the store from areas with the offer and from areas without it.</p>
+        <div class="row" style="margin-top:16px"><a class="btn" href="#">Copy test plan</a><a class="btn" href="prove.html">Check the design in Prove</a></div>
+      </section>
+
+      <details class="adv"><summary>Advanced: how visits are confirmed</summary>
+        <div><p>A visit counts when four things match: the ride, the time since arrival, the phone location at the store, and a single check-in per ride. Where location is not accurate enough, such as inside malls, the rider scans a code at the entrance instead. The code changes regularly, so a photo of it cannot be reused.</p></div></details>
+      <details class="adv"><summary>Advanced: technical names</summary>
+        <div><p>Starting areas are origin zones. Extra visits are incremental visits. Platform cost after sponsor fees is net platform cost. Fee per confirmed visit is a cost-per-visit price. How to check this for real is a holdout test with matched control zones. Smallest change it can spot is the minimum detectable effect.</p></div></details>
+
+      <div class="row between"><a class="btn" href="target.html">← Back: Target</a><a class="btn primary" href="prove.html">Next: Prove →</a></div>
+    </div>
+  </div>
+</main>
+
+<div class="strip" aria-label="Key results">
+  <div><p class="l">Visits per sponsor $</p><p class="num gold">0.05</p></div>
+  <div><p class="l">Platform cost</p><p class="num">−$1,335</p></div>
+  <span class="tag sim">Simulated</span>
+</div>
+<footer class="foot"><div class="wrap"><span>Ridelta · a portfolio project</span><a href="#">About me</a><a href="#">Source code</a><a href="#">Contact</a></div></footer>
+<script src="ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta UI board</title><link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="ui.css">
+<style>
+.board { display: flex; gap: 40px; align-items: flex-start; overflow-x: auto; padding: 8px 0 48px; }
+.board h3 { font: 500 13px var(--mono); color: var(--ink-2); margin-bottom: 8px; }
+.d { width: 720px; height: 1100px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
+.d iframe { width: 1440px; height: 2200px; border: 0; transform: scale(.5); transform-origin: 0 0; }
+.m iframe { width: 390px; height: 1100px; border: 1px solid var(--line); border-radius: 24px; }
+</style>
+</head>
+<body>
+<main class="wrap" style="padding-top:32px">
+  <div class="row between"><h1 class="h2">Ridelta UI</h1><button class="theme-btn" data-theme-toggle>Light or dark</button></div>
+  <p class="muted" style="margin-top:8px;max-width:760px">High-fidelity pages, palette B (Ink and gold). Each page is responsive. Desktop is shown at 1440 px scaled to half, mobile at 390 px. Numbers are sample values, not results. Decisions D50 to D55 in docs/decision-log.md.</p>
+  <div id="b"></div>
+</main>
+<script>
+for (const [p, n] of [['landing','Landing'],['target','Target'],['sponsor','Sponsor'],['prove','Prove']])
+  document.getElementById('b').insertAdjacentHTML('beforeend', `<h2 class="h3" style="margin-top:32px"><a href="${p}.html">${n}</a></h2><div class="board"><div><h3>Desktop · 1440 px</h3><div class="d"><iframe src="${p}.html" title="${n} desktop"></iframe></div></div><div class="m"><h3>Mobile · 390 px</h3><iframe src="${p}.html" title="${n} mobile"></iframe></div></div>`);
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

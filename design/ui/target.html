@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta Target</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="icon" href="logo.svg">
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="landing.html" aria-label="Ridelta home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 L28 20 H4 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="16" cy="22" r="4.2" fill="var(--paper)" stroke="var(--data)" stroke-width="3"/></svg><span class="word">Ridelta</span></a>
+  <nav class="nav" aria-label="Modules"><a href="target.html" aria-current="page">Target</a><a href="sponsor.html">Sponsor</a><a href="prove.html">Prove</a></nav>
+  <nav class="nav-right" aria-label="About the data"><a href="#">Assumptions</a><a href="#">Data and method</a><a href="#">Case study</a><button class="theme-btn" data-theme-toggle>Light or dark</button></nav>
+  <details class="menu"><summary>Menu</summary><nav aria-label="Site"><a href="landing.html">Home</a><a href="#">Assumptions</a><a href="#">Data and method</a><a href="#">Case study</a><button class="theme-btn" style="margin:8px 12px" data-theme-toggle>Light or dark</button></nav></details>
+</div></header>
+<nav class="tabs" aria-label="Modules"><a href="target.html" aria-current="page">Target</a><a href="sponsor.html">Sponsor</a><a href="prove.html">Prove</a></nav>
+
+<main class="wrap">
+  <div class="mod-head">
+    <div class="row between"><p class="eyebrow">Module 1 of 3 · Target</p><span class="sample-note">Sample values, not results</span></div>
+    <h1 class="h2">Who should get a ride offer?</h1>
+    <p class="answer">At the same budget, giving the offer to riders it moves brings <b>+38%</b> more extra rides than giving it to everyone. <span class="tag est">Estimated</span></p>
+    <p class="source">Data: a public email test where people were picked at random. An email stands in for a ride offer. A site visit stands in for a ride. <span class="tag real">Real</span> <a class="link" href="#">Why this stand-in works</a></p>
+  </div>
+
+  <div class="mod-grid">
+    <details class="levers" open>
+      <summary><span>Levers</span><span class="chev" aria-hidden="true">⌄</span></summary>
+      <form class="body">
+        <div class="ctrl" style="border-top:0;padding-top:0"><a class="link" href="#">Reset to defaults</a></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Total offer budget</span><output></output></div><input type="range" min="10000" max="200000" step="5000" value="50000" data-fmt="$#" aria-label="Total offer budget"></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Discount size</span><output></output></div><input type="range" min="5" max="50" step="5" value="20" data-fmt="#%" aria-label="Discount size"><p class="help">Share of the fare the offer covers.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Who gets the offer</span></div>
+          <div class="seg four" role="radiogroup" aria-label="Who gets the offer">
+            <label><input type="radio" name="pol">Everyone</label><label><input type="radio" name="pol">Random</label>
+            <label><input type="radio" name="pol">Likely riders</label><label><input type="radio" name="pol" checked>Moved by offer</label>
+          </div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>How many riders get it</span><output></output></div><input type="range" min="5" max="100" step="5" value="30" data-fmt="Top #%" aria-label="How many riders get it"><p class="help">Not used when everyone gets the offer.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Profit per ride</span></div><input class="field" type="text" inputmode="decimal" value="$4.50" aria-label="Profit per ride"><p class="help">What the platform keeps from one ride, before the offer.</p></div>
+        <p class="help" style="margin-top:12px">Results update as you move a lever. <a class="link" href="#">Why these defaults</a></p>
+      </form>
+    </details>
+
+    <div class="results">
+      <div class="kpis">
+        <div class="kpi"><p class="label">Extra rides</p><p class="num gold">2,970</p><div class="meta"><span class="up">+38% vs everyone</span><span class="tag est">Estimated</span></div></div>
+        <div class="kpi"><p class="label">Cost per extra ride</p><p class="num">$16.84</p><div class="meta"><span class="up">−28% vs everyone</span><span class="tag est">Estimated</span></div></div>
+        <div class="kpi"><p class="label">Return per offer dollar</p><p class="num">$0.27</p><div class="meta"><span class="up">+38% vs everyone</span><span class="tag est">Estimated</span></div></div>
+      </div>
+
+      <section class="card">
+        <div class="chart-head">
+          <div><h2 class="h3">Extra rides as more riders get the offer</h2><p class="small muted">Each line is one way to pick riders. Higher and earlier is better.</p></div>
+          <div class="row"><span class="tag est">Estimated</span><a class="link" href="#t-table">View as table</a></div>
+        </div>
+        <svg class="chart" viewBox="0 0 760 340" role="img" aria-label="Extra rides by share of riders reached. Moved by offer rises fastest and peaks near 30 percent. Likely riders and random rise more slowly. Everyone is one point at 100 percent with 2,150 extra rides.">
+          <g class="grid"><line x1="60" y1="40" x2="740" y2="40"/><line x1="60" y1="110" x2="740" y2="110"/><line x1="60" y1="180" x2="740" y2="180"/><line x1="60" y1="250" x2="740" y2="250"/></g>
+          <line class="axis" x1="60" y1="290" x2="740" y2="290"/><line class="axis" x1="60" y1="20" x2="60" y2="290"/>
+          <g class="t" text-anchor="end"><text x="52" y="294">0</text><text x="52" y="254">500</text><text x="52" y="184">1,500</text><text x="52" y="114">2,500</text><text x="52" y="44">3,500</text></g>
+          <g class="t" text-anchor="middle"><text x="60" y="312">0%</text><text x="230" y="312">25%</text><text x="400" y="312">50%</text><text x="570" y="312">75%</text><text x="740" y="312">100%</text></g>
+          <text class="t" x="400" y="334" text-anchor="middle">Share of riders who get the offer</text>
+          <!-- current cutoff -->
+          <line x1="264" y1="24" x2="264" y2="290" stroke="var(--action)" stroke-width="1.5"/>
+          <text x="270" y="34" fill="var(--action)" font-size="12" font-weight="600">Your cutoff: top 30%</text>
+          <!-- random -->
+          <path d="M60 290 L740 139" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="2 5" fill="none"/>
+          <text class="t" x="600" y="196">Random</text>
+          <!-- likely riders -->
+          <path d="M60 290 C 200 250, 380 180, 740 139" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="8 5" fill="none"/>
+          <text class="t" x="520" y="150">Likely riders</text>
+          <!-- moved by offer -->
+          <path d="M60 290 C 130 150, 200 95, 264 82 C 380 62, 560 100, 740 139" stroke="var(--data)" stroke-width="3.5" fill="none"/>
+          <circle cx="264" cy="82" r="6" fill="var(--data)" stroke="var(--surface)" stroke-width="2"/>
+          <text class="tl" x="290" y="76" fill="var(--data)">Moved by offer · 2,970</text>
+          <!-- blanket point -->
+          <rect x="733" y="132" width="14" height="14" fill="var(--ink)"/>
+          <text class="t" x="725" y="126" text-anchor="end">Everyone · 2,150</text>
+        </svg>
+      </section>
+
+      <section class="card" id="t-table">
+        <div class="chart-head"><h2 class="h3">Four ways to pick, same budget</h2><span class="tag est">Estimated</span></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Who gets it</th><th class="n">Riders reached</th><th class="n">Extra rides</th><th class="n">Cost per extra ride</th><th class="n">Return per offer $</th></tr></thead>
+          <tbody>
+            <tr><td>Everyone</td><td class="n">64,000</td><td class="n">2,150</td><td class="n">$23.26</td><td class="n">$0.19</td></tr>
+            <tr><td>Random</td><td class="n">19,200</td><td class="n">1,310</td><td class="n">$38.17</td><td class="n">$0.12</td></tr>
+            <tr><td>Likely riders</td><td class="n">19,200</td><td class="n">1,860</td><td class="n">$26.88</td><td class="n">$0.17</td></tr>
+            <tr class="hl"><td>Moved by offer · selected</td><td class="n">19,200</td><td class="n">2,970</td><td class="n">$16.84</td><td class="n">$0.27</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="card grid2">
+        <div><h2 class="h3">How to read this</h2><p class="small muted" style="margin-top:8px">"Likely riders" picks people who ride often. Many of them ride with or without an offer. "Moved by offer" picks riders whose choice the offer changes.</p></div>
+        <div><h2 class="h3">What this does not show</h2><p class="small muted" style="margin-top:8px">Long-term effects, repeat offers and driver supply. Prove covers supply.</p></div>
+      </section>
+
+      <details class="adv"><summary>Advanced: technical names</summary>
+        <div><p>The chart is an uplift curve. "Moved by offer" is uplift targeting. "Likely riders" is propensity targeting. "Everyone" is a blanket offer. Extra rides are incremental rides. Return per offer dollar is incremental contribution per incentive dollar. How many riders get it is the targeting cutoff.</p></div>
+      </details>
+
+      <div class="row" style="justify-content:flex-end"><a class="btn primary" href="sponsor.html">Next: Sponsor →</a></div>
+    </div>
+  </div>
+</main>
+
+<div class="strip" aria-label="Key results">
+  <div><p class="l">Extra rides</p><p class="num gold">2,970</p></div>
+  <div><p class="l">Return per offer $</p><p class="num">$0.27</p></div>
+  <span class="tag est">Estimated</span>
+</div>
+<footer class="foot"><div class="wrap"><span>Ridelta · a portfolio project</span><a href="#">About me</a><a href="#">Source code</a><a href="#">Contact</a></div></footer>
+<script src="ui.js"></script>
+</body>
+</html>

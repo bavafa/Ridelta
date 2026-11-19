@@ -263,6 +263,40 @@ The Sponsor payment model changed. This revision replaces D35 and D36 and update
 - **Decision:** A second closed Advanced section explains the four checks behind a confirmed visit and the code scan backup.
 - **Why:** Practitioners will ask how visits are verified and how fraud is limited. Most visitors do not need it on first read.
 
+## Visual design round (2026-11-18)
+
+High-fidelity pages for Landing, Target, Sponsor and Prove are in design/ui. Each page is one responsive file. design/ui/index.html shows each page at 1440 px and 390 px side by side.
+
+### D50. Palette B, Ink and gold
+
+- **Decision:** Ivory paper (#FAF8F3), white cards, near-black ink (#1B1B1F), warm gray text (#5E5A55). Dark navy (#1B2D55) is for actions only. Deep gold (#8A6512) marks the result to look at. Gray (#BDB6A8) marks the options it is compared with. A matching dark mode uses the same roles. This updates D2 and D4.
+- **Why:** Chosen by the owner from three options shown in design/ui/palette-sample.html. The brief asked for minimal, practical, trust-building, hopeful and elegant. Gold reads as value and is dark enough to pass contrast as text.
+
+### D51. Sample values replace bracketed placeholders
+
+- **Decision:** UI pages show plausible sample values. Every page carries a visible "Sample values, not results" note. This replaces D12 for the UI pages only. Wireframes keep brackets.
+- **Why:** Charts and tables cannot be judged with brackets. The note keeps sample values from being read as findings. The values are internally consistent, so a reviewer can check the math.
+
+### D52. One responsive page per view
+
+- **Decision:** Each page is a single responsive HTML file using design/ui/ui.css. Below 960 px the layout follows the mobile wireframes: module tabs, Menu button, levers closed on load (D15) and a result strip at the bottom (D16).
+- **Why:** One file per page is closer to the real build and avoids keeping two copies of the same content in step.
+
+### D53. Gold highlights one thing per view
+
+- **Decision:** On each view, gold marks only the selected or winning result: Moved by offer on Target, extra visits per sponsor dollar on Sponsor, the hour-by-hour test on Prove. Everything else uses ink and gray.
+- **Why:** One accent per view tells the eye where to look first. Shapes and words still carry the meaning, so nothing depends on color alone.
+
+### D54. Levers are real form controls
+
+- **Decision:** Sliders, segmented choices and fields are native inputs with labels. Prove marks a changed lever with "changed" until Run is pressed (D17).
+- **Why:** Native inputs give keyboard and screen reader support for free and show the real interaction in the mockup.
+
+### D55. Light and dark switch
+
+- **Decision:** The page follows the system setting. A "Light or dark" button in the header overrides it and is remembered in the browser.
+- **Why:** Dark mode was part of the palette choice. The switch lets reviewers see both without changing system settings.
+
 ## Open items for the next round
 
 - The Assumptions, Case study and Data and method pages are not designed yet.

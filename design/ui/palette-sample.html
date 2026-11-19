@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta palette sample</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fira+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Proposed palette. Minimal and elegant: near-white paper, midnight ink, trust blue for actions, growth green for results. */
+:root {
+  --paper: #FBFBF9;     /* page, warm off-white so long reading is soft */
+  --surface: #FFFFFF;   /* cards */
+  --ink: #0B1B33;       /* text and the truth marker */
+  --ink-2: #556070;     /* secondary text, AA on paper */
+  --line: #E6E8EC;      /* warm hairlines */
+  --sunk: #F3F5F8;      /* lever panel, answer box */
+  --action: #1F3FA8;    /* buttons and links only */
+  --data: #127A5A;      /* the winning or highlighted series */
+  --data-soft: #D8EFE6;
+  --base: #A7B0BE;      /* comparison series */
+  --sans: 'Fira Sans', system-ui, sans-serif;
+  --mono: 'Fira Code', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0B1220; --surface: #121B2E; --ink: #EEF2F7; --ink-2: #A6B0C0;
+    --line: #223049; --sunk: #17223A; --action: #8FA8FF; --data: #4CC79A; --data-soft: #17402F; --base: #6E7A8F;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0B1220; --surface: #121B2E; --ink: #EEF2F7; --ink-2: #A6B0C0;
+  --line: #223049; --sunk: #17223A; --action: #8FA8FF; --data: #4CC79A; --data-soft: #17402F; --base: #6E7A8F;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--sans); }
+h1, h2, h3, p { margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+.eyebrow { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); }
+.muted { color: var(--ink-2); }
+
+/* Palette strip */
+.palette { padding: 32px 0; border-bottom: 1px solid var(--line); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-top: 16px; }
+.sw { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); font-size: 13px; }
+.sw i { display: block; height: 48px; }
+.sw div { padding: 8px 10px; }
+.sw b { display: block; font-weight: 600; }
+.sw code { font: 12px var(--mono); color: var(--ink-2); }
+.toggle { margin-top: 16px; min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 500 14px var(--sans); cursor: pointer; }
+
+/* Low-fi landing */
+.top { display: flex; align-items: center; gap: 28px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.logo { font-weight: 700; font-size: 20px; letter-spacing: -.01em; }
+.logo span { color: var(--data); }
+.nav { display: flex; gap: 20px; font-size: 15px; }
+.nav a { color: var(--ink-2); text-decoration: none; }
+.hero { padding: 64px 0 48px; }
+.hero h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -.02em; max-width: 760px; margin-top: 12px; }
+.hero p.lead { font-size: 19px; color: var(--ink-2); max-width: 640px; margin-top: 16px; }
+.btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.btn { min-height: 44px; display: inline-flex; align-items: center; padding: 0 20px; border-radius: 8px; font-weight: 600; font-size: 15px; text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: var(--surface); }
+.btn.primary { background: var(--action); border-color: var(--action); color: #fff; }
+:root[data-theme="dark"] .btn.primary { color: #0B1220; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #0B1220; } }
+.legend { display: flex; gap: 8px 18px; flex-wrap: wrap; margin-top: 28px; font-size: 14px; color: var(--ink-2); align-items: center; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font: 500 12px/1 var(--sans); color: var(--ink); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 9px; }
+.tag::before { content: ""; width: 9px; height: 9px; }
+.tag.real::before { background: var(--ink); }
+.tag.est::before { background: var(--ink); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.tag.sim::before { border: 2px solid var(--ink); border-radius: 50%; width: 6px; height: 6px; }
+.sample { display: inline-block; margin-top: 8px; font: 500 12px var(--mono); color: var(--ink-2); border: 1px dashed var(--ink-2); border-radius: 6px; padding: 4px 8px; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-bottom: 64px; }
+@media (max-width: 860px) { .cards { grid-template-columns: 1fr; } .nav { display: none; } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+.card h3 { font-size: 18px; }
+.num { font: 500 34px/1 var(--mono); }
+.card .num.hi { color: var(--data); }
+.bar { display: grid; grid-template-columns: 96px 1fr; gap: 8px; align-items: center; font-size: 13px; color: var(--ink-2); }
+.bar i { display: block; height: 10px; border-radius: 3px; background: var(--base); }
+.bar.win i { background: var(--data); }
+.scale { position: relative; height: 34px; margin-top: 4px; border-bottom: 2px solid var(--line); }
+.scale span { position: absolute; bottom: -7px; width: 12px; height: 12px; transform: translateX(-50%); }
+.scale .truth { background: var(--ink); transform: translateX(-50%) rotate(45deg); }
+.scale .ab { border: 2px solid var(--base); border-radius: 50%; background: var(--surface); }
+.scale .sw2 { background: var(--data); }
+.answer { background: var(--sunk); border-left: 4px solid var(--data); border-radius: 0 8px 8px 0; padding: 14px 16px; font-size: 15px; }
+.card a.btn { margin-top: auto; justify-content: center; }
+</style>
+</head>
+<body>
+
+<section class="palette"><div class="wrap">
+  <p class="eyebrow">Step 1 · Palette for review</p>
+  <h2 style="font-size:24px;margin-top:6px">Midnight ink, trust blue for actions, growth green for results</h2>
+  <p class="muted" style="max-width:720px;margin-top:8px">Quiet and precise so the numbers feel trustworthy. Deep blue means "you can click this". Green is the hopeful color: it marks the gain, the result to look at. Gray is the comparison. Honesty labels stay neutral and use shape plus word.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:var(--paper)"></i><div><b>Paper</b><code>#FBFBF9</code></div></div>
+    <div class="sw"><i style="background:var(--surface)"></i><div><b>Surface</b><code>#FFFFFF</code></div></div>
+    <div class="sw"><i style="background:var(--sunk)"></i><div><b>Sunk</b><code>#F3F5F8</code></div></div>
+    <div class="sw"><i style="background:var(--ink)"></i><div><b>Ink</b><code>#0B1B33</code></div></div>
+    <div class="sw"><i style="background:var(--ink-2)"></i><div><b>Ink 2</b><code>#556070</code></div></div>
+    <div class="sw"><i style="background:var(--action)"></i><div><b>Action</b><code>#1F3FA8</code></div></div>
+    <div class="sw"><i style="background:var(--data)"></i><div><b>Result</b><code>#127A5A</code></div></div>
+    <div class="sw"><i style="background:var(--base)"></i><div><b>Comparison</b><code>#A7B0BE</code></div></div>
+  </div>
+  <div class="btns" style="margin-top:16px" id="opts">
+    <button class="toggle" style="margin:0" data-o="a">A · Midnight and growth</button>
+    <button class="toggle" style="margin:0" data-o="b">B · Ink and gold</button>
+    <button class="toggle" style="margin:0" data-o="c">C · Sky and sunrise</button>
+  </div>
+  <p class="muted" id="optnote" style="margin-top:8px;font-size:14px"></p>
+  <button class="toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">Switch light and dark</button>
+</div></section>
+
+<div class="wrap">
+  <header class="top">
+    <span class="logo">Rid<span>e</span>lta</span>
+    <nav class="nav"><a href="#">Target</a><a href="#">Sponsor</a><a href="#">Prove</a></nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">A portfolio project in marketplace analytics</p>
+    <h1>More rides from every incentive dollar.</h1>
+    <p class="lead">A ride marketplace gives riders offers to book more rides. Some riders change their plans because of an offer. Others would ride anyway. Ridelta shows how to aim offers at the first group, share the cost with stores and prove the result.</p>
+    <div class="btns"><a class="btn primary" href="#">See the results</a><a class="btn" href="#">Try the model</a></div>
+    <div class="legend">
+      <span class="tag real">Real</span><span>public data</span>
+      <span class="tag est">Estimated</span><span>a model fit on real data</span>
+      <span class="tag sim">Simulated</span><span>from stated assumptions</span>
+    </div>
+  </section>
+
+  <section class="cards">
+    <article class="card">
+      <p class="eyebrow">Target</p>
+      <h3>Who should get an offer?</h3>
+      <div><span class="num hi">+38%</span><p class="muted" style="font-size:14px;margin-top:6px">extra rides versus offering everyone, same budget</p></div>
+      <div class="bar"><span>Everyone</span><i style="width:40%"></i></div>
+      <div class="bar"><span>Likely riders</span><i style="width:55%"></i></div>
+      <div class="bar win"><span>Moved by offer</span><i style="width:100%"></i></div>
+      <span class="tag est" style="align-self:flex-start">Estimated</span>
+      <a class="btn" href="#">Open Target</a>
+    </article>
+    <article class="card">
+      <p class="eyebrow">Sponsor</p>
+      <h3>Who else can share the cost?</h3>
+      <div><span class="num hi">0.42</span><p class="muted" style="font-size:14px;margin-top:6px">extra store visits per sponsor dollar</p></div>
+      <div class="answer">Fee covers rider credit: <b>Yes</b></div>
+      <span class="tag sim" style="align-self:flex-start">Simulated</span>
+      <a class="btn" href="#">Open Sponsor</a>
+    </article>
+    <article class="card">
+      <p class="eyebrow">Prove</p>
+      <h3>Did the offer really work?</h3>
+      <div><span class="num">24% <span class="muted" style="font-size:20px">vs</span> <span class="hi" style="color:var(--data)">3%</span></span><p class="muted" style="font-size:14px;margin-top:6px">how far off a group split test is, versus an hour-by-hour test</p></div>
+      <div class="scale" aria-label="Real effect, hour-by-hour test close to it, group split test far off">
+        <span class="truth" style="left:40%"></span><span class="sw2" style="left:43%"></span><span class="ab" style="left:72%"></span>
+      </div>
+      <p class="muted" style="font-size:13px">◆ real effect · ■ hour-by-hour · ○ group split</p>
+      <span class="tag sim" style="align-self:flex-start">Simulated</span>
+      <a class="btn" href="#">Open Prove</a>
+    </article>
+  </section>
+  <p class="sample" style="margin-bottom:48px">Sample values, not results</p>
+</div>
+<script>
+// Light-mode options for comparison. Dark mode follows once one is picked.
+const O={
+ a:{n:"Quiet and precise. Deep trust blue to click, growth green for the gain.",v:{paper:"#FBFBF9",surface:"#FFFFFF",sunk:"#F3F5F8",ink:"#0B1B33","ink-2":"#556070",line:"#E6E8EC",action:"#1F3FA8",data:"#127A5A",base:"#A7B0BE"}},
+ b:{n:"Elegant and editorial, like a printed annual report. Near-black ink, navy to click, deep gold for the gain.",v:{paper:"#FAF8F3",surface:"#FFFFFF",sunk:"#F2EEE4",ink:"#1B1B1F","ink-2":"#5E5A55",line:"#E7E1D5",action:"#1B2D55",data:"#8A6512",base:"#BDB6A8"}},
+ c:{n:"Open and hopeful, like early morning. Clear sky blue to click, warm sunrise orange for the gain.",v:{paper:"#F7FAFC",surface:"#FFFFFF",sunk:"#EDF3F8",ink:"#10243E","ink-2":"#4F6175",line:"#DCE5EE",action:"#1764D6",data:"#B8520B",base:"#A9B7C6"}}};
+function pick(k){const r=document.documentElement;r.dataset.theme="light";
+ for(const [n,c] of Object.entries(O[k].v)) r.style.setProperty("--"+n,c);
+ document.getElementById("optnote").textContent=O[k].n;
+ document.querySelectorAll(".sw").forEach(w=>{const m=w.querySelector("i").style.background.match(/--([\w-]+)/);w.querySelector("code").textContent=O[k].v[m[1]].toUpperCase()});
+ document.querySelectorAll("#opts button").forEach(b=>b.style.borderColor=b.dataset.o===k?"var(--ink)":"");}
+document.querySelectorAll("#opts button").forEach(b=>b.onclick=()=>pick(b.dataset.o));
+const q=location.hash.slice(1);pick(O[q]?q:"a");
+</script>
+</body>
+</html>

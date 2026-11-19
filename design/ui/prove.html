@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridelta Prove</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="icon" href="logo.svg">
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="landing.html" aria-label="Ridelta home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 L28 20 H4 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="16" cy="22" r="4.2" fill="var(--paper)" stroke="var(--data)" stroke-width="3"/></svg><span class="word">Ridelta</span></a>
+  <nav class="nav" aria-label="Modules"><a href="target.html">Target</a><a href="sponsor.html">Sponsor</a><a href="prove.html" aria-current="page">Prove</a></nav>
+  <nav class="nav-right" aria-label="About the data"><a href="#">Assumptions</a><a href="#">Data and method</a><a href="#">Case study</a><button class="theme-btn" data-theme-toggle>Light or dark</button></nav>
+  <details class="menu"><summary>Menu</summary><nav aria-label="Site"><a href="landing.html">Home</a><a href="#">Assumptions</a><a href="#">Data and method</a><a href="#">Case study</a><button class="theme-btn" style="margin:8px 12px" data-theme-toggle>Light or dark</button></nav></details>
+</div></header>
+<nav class="tabs" aria-label="Modules"><a href="target.html">Target</a><a href="sponsor.html">Sponsor</a><a href="prove.html" aria-current="page">Prove</a></nav>
+
+<main class="wrap">
+  <div class="mod-head">
+    <div class="row between"><p class="eyebrow">Module 3 of 3 · Prove</p><span class="sample-note">Sample values, not results</span></div>
+    <h1 class="h2">Does the test tell the truth?</h1>
+    <p class="lead" style="font-size:17px;margin-top:12px">In this simulator you know the real answer, because you set it. The same offer runs as two kinds of test. See which test gets closer.</p>
+    <p class="answer"><strong>Recommendation:</strong> Use the hour-by-hour test, with 60-minute time slots in each neighborhood. When cars are scarce, the group split test reads 24% too high. Riders with the offer take cars that other riders would have used. <span class="tag sim">Simulated</span></p>
+  </div>
+
+  <div class="mod-grid">
+    <details class="levers" open>
+      <summary><span>Levers</span><span class="chev" aria-hidden="true">⌄</span></summary>
+      <form class="body" data-run>
+        <div class="ctrl" style="border-top:0;padding-top:0"><a class="link" href="#">Reset to defaults</a></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Real effect of the offer</span><output></output></div><input type="range" min="0" max="15" step="0.5" value="5" data-fmt="+#%" data-dp="1" aria-label="Real effect of the offer"><p class="help">Set the real answer, then see which test finds it.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>How many cars are available</span></div><div class="seg" role="radiogroup" aria-label="How many cars are available"><label><input type="radio" name="cars">Many</label><label><input type="radio" name="cars">Some</label><label><input type="radio" name="cars" checked>Few</label></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Which test to run</span></div><div class="seg" role="radiogroup" aria-label="Which test to run"><label><input type="radio" name="test">Group split</label><label><input type="radio" name="test">Hour-by-hour</label><label><input type="radio" name="test" checked>Both</label></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Length of each time slot</span><output></output></div><input type="range" min="15" max="240" step="15" value="60" data-fmt="# min" aria-label="Length of each time slot"><p class="help">For the hour-by-hour test. The offer turns on and off at this pace.</p></div>
+        <div class="ctrl"><div class="ctrl-top"><span>Area size</span></div><div class="seg" role="radiogroup" aria-label="Area size"><label><input type="radio" name="area">City</label><label><input type="radio" name="area">Borough</label><label><input type="radio" name="area" checked>Neighborhood</label></div></div>
+        <div class="ctrl"><div class="ctrl-top"><span>How long the test runs</span><output></output></div><input type="range" min="7" max="56" step="7" value="14" data-fmt="# days" aria-label="How long the test runs"></div>
+        <button class="btn primary block" type="submit" style="margin-top:12px">Run the tests</button>
+        <p class="help">Each run takes a few seconds. Results stay on screen until the next run. Changed levers are marked until you run again.</p>
+      </form>
+    </details>
+
+    <div class="results">
+      <div class="kpis">
+        <div class="kpi"><p class="label">Real effect (you set it)</p><p class="num">+5.0%</p><div class="meta"><span>◆ the answer</span><span class="tag sim">Simulated</span></div></div>
+        <div class="kpi"><p class="label">Group split test found</p><p class="num">+6.2%</p><div class="meta"><span>off by 1.2 points</span><span class="tag sim">Simulated</span></div></div>
+        <div class="kpi"><p class="label">Hour-by-hour test found</p><p class="num gold">+4.9%</p><div class="meta"><span class="up">off by 0.1 points</span><span class="tag sim">Simulated</span></div></div>
+      </div>
+
+      <section class="card">
+        <div class="chart-head">
+          <div><h2 class="h3">How close did each test get?</h2><p class="small muted">The closer a test sits to the real effect, the better.</p></div>
+          <div class="row"><span class="tag sim">Simulated</span><a class="link" href="#p-table">View as table</a></div>
+        </div>
+        <svg class="chart" viewBox="0 0 760 210" role="img" aria-label="One scale from 3 to 8 percent. Real effect 5.0. Hour-by-hour test 4.9, off by 0.1 points. Group split test 6.2, off by 1.2 points.">
+          <line class="axis" x1="40" y1="110" x2="720" y2="110" stroke-width="2"/>
+          <g class="t" text-anchor="middle">
+            <line class="axis" x1="40" y1="104" x2="40" y2="116"/><text x="40" y="136">3%</text>
+            <line class="axis" x1="176" y1="104" x2="176" y2="116"/><text x="176" y="136">4%</text>
+            <line class="axis" x1="312" y1="104" x2="312" y2="116"/><text x="312" y="136">5%</text>
+            <line class="axis" x1="448" y1="104" x2="448" y2="116"/><text x="448" y="136">6%</text>
+            <line class="axis" x1="584" y1="104" x2="584" y2="116"/><text x="584" y="136">7%</text>
+            <line class="axis" x1="720" y1="104" x2="720" y2="116"/><text x="720" y="136">8%</text>
+          </g>
+          <!-- truth -->
+          <line x1="312" y1="40" x2="312" y2="110" stroke="var(--ink)" stroke-dasharray="3 4"/>
+          <rect x="304" y="102" width="16" height="16" transform="rotate(45 312 110)" fill="var(--ink)"/>
+          <text class="tl" x="312" y="30" text-anchor="middle">◆ Real effect 5.0%</text>
+          <!-- hour-by-hour -->
+          <rect x="291" y="62" width="14" height="14" fill="var(--data)"/>
+          <text x="284" y="74" text-anchor="end" font-size="13" font-weight="600" fill="var(--data)">■ Hour-by-hour 4.9%</text>
+          <!-- group split -->
+          <circle cx="475" cy="110" r="9" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="2.5"/>
+          <text class="tl" x="475" y="84" text-anchor="middle">○ Group split 6.2%</text>
+          <line x1="320" y1="168" x2="467" y2="168" stroke="var(--ink-2)" stroke-dasharray="4 4"/>
+          <line x1="320" y1="160" x2="320" y2="176" stroke="var(--ink-2)"/><line x1="467" y1="160" x2="467" y2="176" stroke="var(--ink-2)"/>
+          <text class="t" x="394" y="194" text-anchor="middle">Group split is off by 1.2 points</text>
+        </svg>
+      </section>
+
+      <section class="card grid2">
+        <div><h2 class="h3">Why the tests disagree</h2><p class="small muted" style="margin-top:8px">In a group split test, both groups share the same cars. Riders with the offer take cars from riders without it. That makes the offer look stronger than it is. An hour-by-hour test turns the offer on for a whole area for one time slot, then off. The two groups never compete for the same cars.</p></div>
+        <div><h2 class="h3">The trade-off</h2><p class="small muted" style="margin-top:8px">The hour-by-hour test lands closer on average but is less certain. Shorter time slots and smaller areas give more data, but the effect can spill over.</p></div>
+      </section>
+
+      <details class="adv" id="p-table"><summary>Advanced: ranges, bias and technical names</summary>
+        <div class="stack">
+          <p>Group split test is a rider-level A/B test. Hour-by-hour test is a switchback test. Off by is the bias.</p>
+          <svg class="chart" viewBox="0 0 700 120" role="img" aria-label="95 percent ranges. A/B 5.6 to 6.8, misses the true effect. Switchback 4.0 to 5.8, covers it.">
+            <line x1="250" y1="10" x2="250" y2="110" stroke="var(--ink)" stroke-dasharray="3 4"/>
+            <text class="t" x="0" y="44" >Rider-level A/B</text>
+            <line x1="298" y1="40" x2="394" y2="40" stroke="var(--ink-2)" stroke-width="3"/><circle cx="346" cy="40" r="7" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="2.5"/>
+            <text class="t" x="406" y="44">misses the truth</text>
+            <text class="t" x="0" y="94">Switchback, 60 min</text>
+            <line x1="170" y1="90" x2="314" y2="90" stroke="var(--data)" stroke-width="3"/><rect x="235" y="83" width="14" height="14" fill="var(--data)"/>
+            <text class="t" x="326" y="94">covers the truth</text>
+          </svg>
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>Design</th><th class="n">Estimate</th><th class="n">Bias</th><th class="n">95% CI width</th><th>CI covers true effect</th></tr></thead>
+            <tbody>
+              <tr><td>Rider-level A/B</td><td class="n">+6.2%</td><td class="n">+1.2 pts</td><td class="n">1.2 pts</td><td>No</td></tr>
+              <tr class="hl"><td>Switchback, 60 min</td><td class="n">+4.9%</td><td class="n">−0.1 pts</td><td class="n">1.8 pts</td><td>Yes</td></tr>
+            </tbody>
+          </table></div>
+          <span class="tag sim">Simulated</span>
+        </div>
+      </details>
+
+      <div class="row between"><a class="btn" href="sponsor.html">← Back: Sponsor</a><a class="btn primary" href="#">Read the case study →</a></div>
+    </div>
+  </div>
+</main>
+
+<div class="strip" aria-label="Key results">
+  <div><p class="l">Group split off by</p><p class="num">1.2 pts</p></div>
+  <div><p class="l">Hour-by-hour off by</p><p class="num gold">0.1 pts</p></div>
+  <span class="tag sim">Simulated</span>
+</div>
+<footer class="foot"><div class="wrap"><span>Ridelta · a portfolio project</span><a href="#">About me</a><a href="#">Source code</a><a href="#">Contact</a></div></footer>
+<script src="ui.js"></script>
+</body>
+</html>
