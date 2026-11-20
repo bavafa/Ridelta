@@ -5,7 +5,7 @@ import { compute, RIDERS, type Curves, type Pt } from './calc';
 // Cost per rider reached = 20% redemption x 20% discount x $20 = $0.80. A $20,000 budget reaches 25,000 riders (share 0.39 on a 1% grid).
 const flat: Pt[] = Array.from({ length: 20 }, (_, k) => ({ s: (k + 1) / 20, u: 0.01, t: 0.2 }));
 const curves: Curves = { uplift: flat, propensity: flat, random: flat };
-const base = { budget: 20000, discount: 20, policy: 'Moved by offer' as const, cutoff: 100, profit: 4 };
+const base = { budget: 20000, discount: 20, policy: 'Moved by offer' as const, cutoff: 100, profit: 4, fare: 20 };
 
 test('budget caps the riders reached', () => {
   const r = compute(curves, base);
@@ -25,4 +25,10 @@ test('everyone reaches all riders and is flagged over budget', () => {
   expect(r.reached).toBe(RIDERS);
   expect(r.overBudget).toBe(true);
   expect(r.extra).toBeCloseTo(640);
+});
+
+test('a higher fare costs more per rider, so the budget reaches fewer riders', () => {
+  const r = compute(curves, { ...base, fare: 40 });
+  expect(r.reached).toBe(12160); // $1.60 per rider: 20% would cost $20,480, so 19%
+  expect(r.cost).toBeLessThanOrEqual(20000);
 });

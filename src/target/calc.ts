@@ -5,14 +5,12 @@ export type Policy = (typeof POLICIES)[number];
 const CURVE_OF: Record<Policy, keyof Curves> = { Everyone: 'random', Random: 'random', 'Likely riders': 'propensity', 'Moved by offer': 'uplift' };
 
 export const RIDERS = 64000;
-// Placeholder average fare. The Assumptions page will state it (E6).
-export const FARE = 20;
 // Placeholder share of reached riders who use the offer. Also stated on Assumptions (E6).
 export const REDEMPTION = 0.2;
 
-export const DEFAULTS = { budget: 10000, discount: 20, policy: 'Moved by offer' as Policy, cutoff: 30, profit: 4.5 };
+export const DEFAULTS = { budget: 10000, discount: 20, policy: 'Moved by offer' as Policy, cutoff: 30, profit: 4.5, fare: 20 };
 
-export type Inputs = { budget: number; discount: number; policy: Policy; cutoff: number; profit: number };
+export type Inputs = { budget: number; discount: number; policy: Policy; cutoff: number; profit: number; fare: number };
 export type Result = { reached: number; extra: number; cost: number; costPerExtra: number; returnPerDollar: number; overBudget: boolean };
 
 /** Linear interpolation of the cumulative curve at share s. Below the first point the first point is used. */
@@ -38,7 +36,7 @@ function at(c: Pt[], s: number): Pt {
 export function compute(curves: Curves, i: Inputs): Result {
   const everyone = i.policy === 'Everyone';
   const c = curves[CURVE_OF[i.policy]];
-  const cost = (s: number) => RIDERS * s * REDEMPTION * (i.discount / 100) * FARE;
+  const cost = (s: number) => RIDERS * s * REDEMPTION * (i.discount / 100) * i.fare;
   let s = 1;
   if (!everyone) {
     s = 0;

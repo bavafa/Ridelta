@@ -23,7 +23,7 @@ export function Assumptions() {
     ['Target', 'Discount size', '20%', 'Placeholder for a typical mid-size offer.'],
     ['Target', 'How many riders get it', 'Top 30%', 'Placeholder. The budget usually stops the offer first.'],
     ['Target', 'Profit per ride', '$4.50', 'Placeholder. Real platform margins are not public, so this is an illustration.'],
-    ['Target', 'Average fare', '$20', 'Placeholder used to turn the discount into dollars.'],
+    ['Target', 'Average fare', '$20', 'Placeholder starting value. You can change it on Target. It only changes the offer cost, not who the model picks.'],
     ['Target', 'Riders who use the offer', '20%', 'Placeholder. Cost is a fixed amount for each rider reached. See the note below.'],
     ['Sponsor', 'Sponsor budget', '$8,000', 'Placeholder for a 4-week campaign.'],
     ['Sponsor', 'Fee per confirmed visit', '$6.00', 'Placeholder. In a real launch the fee must cover the rider credit plus platform costs.'],
