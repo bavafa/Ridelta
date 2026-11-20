@@ -130,7 +130,7 @@ export default function Target() {
                     <td className="n">{usd(r.costPerExtra)}</td><td className="n">{usd(r.returnPerDollar)}</td>
                   </tr>))}</tbody>
               </table></div>
-              <p className="help" style={{ marginTop: 12 }}>Spend is capped at the budget for every way except Everyone, which reaches all riders and may cost more.</p>
+              <p className="help" style={{ marginTop: 12 }}><b>Extra rides</b> are rides the offer causes that would not have happened without it. <b>Cost per extra ride</b> is the offer cost divided by the extra rides. <b>Return per offer $</b> is the profit from the extra rides for each $1 of offer cost. Above $1 means the offer pays for itself. Spend is capped at the budget for every way except Everyone, which reaches all riders and may cost more.</p>
             </section>
 
             <section className="card grid2">

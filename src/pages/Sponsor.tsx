@@ -110,9 +110,9 @@ export default function Sponsor() {
                     <tbody>{(all ? r.areas : r.areas.slice(0, 8)).map((a, i) => (
                       <tr key={a.zone.id} className={a.funded ? undefined : 'muted'}><td><span className="rank">{i + 1}</span></td>
                         <td>{a.zone.name}{!a.funded && <span className="small"> · not funded</span>}{a.funded && a.share < 0.995 && <span className="small muted"> · part funded</span>}</td><td className="n">{n0(a.weeklyTrips)}</td>
-                        <td className="n">{n0(a.extra)}</td><td className="n">{a.perDollar.toFixed(2)}</td></tr>))}</tbody>
+                        <td className="n">{n0(a.extra)}</td><td className="n">{(a.perDollar * 100).toFixed(1)}</td></tr>))}</tbody>
                   </table></div>
-                  <p className="small muted">Trips <Tag kind="real" /> Visits <Tag kind="sim" /> Areas are ranked by extra visits over the campaign. The budget funds them from the top. Extra visits for areas not funded show what they would bring.</p>
+                  <p className="small muted"><b>Weekly trips</b> <Tag kind="real" /> are rides from this area to the store's zone in a typical week. <b>Extra visits</b> <Tag kind="sim" /> are visits over the campaign that the offer causes, not visits that would have happened anyway. <b>Visit Efficiency</b> is extra visits per $100 of sponsor fees. Areas are ranked by extra visits. The budget funds them from the top. Extra visits for areas not funded show what they would bring.</p>
                   {r.areas.length > 8 && <button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setAll(!all)}>{all ? 'Show top 8' : `Show all ${r.areas.length} areas`}</button>}
                   <ZoneMap data={data} store={store} areas={r.areas} radius={radius} />
                   <div className="row small muted" style={{ gap: 16 }}>
@@ -190,7 +190,7 @@ export default function Sponsor() {
                   ['Check-in rate', '1 − e^(−check-in window ÷ 12)', `1 − e^(−${window_} ÷ 12) = ${c.toFixed(2)}`],
                   ['Confirmed visits', 'rides × (no-offer visit rate + extra visit rate) × check-in rate', `${n0(rides)} × (${pc(base)} + ${pc(m)}) × ${c.toFixed(2)} = ${n0(conf)}`],
                   ['Extra visits (incremental visits)', 'rides × extra visit rate × check-in rate', `${n0(rides)} × ${pc(m)} × ${c.toFixed(2)} = ${n0(rides * m * c)}`],
-                  ['Visit Efficiency', 'extra visit rate ÷ ((no-offer visit rate + extra visit rate) × fee)', `${pc(m)} ÷ ((${pc(base)} + ${pc(m)}) × ${usd2(fee)}) = ${a.perDollar.toFixed(2)}`],
+                  ['Visit Efficiency', 'extra visit rate ÷ ((no-offer visit rate + extra visit rate) × fee) × 100, which is extra visits per $100 of sponsor fees', `${pc(m)} ÷ ((${pc(base)} + ${pc(m)}) × ${usd2(fee)}) × 100 = ${(a.perDollar * 100).toFixed(1)}`],
                   ['Areas funded', 'the budget pays the fee on every confirmed visit, starting at the top of the ranking, until the money runs out', `${r.funded} of ${r.areas.length} areas, ${usd(r.spend)} of ${usd(budget)}`],
                   ['Extra visits per sponsor dollar', 'extra visits in funded areas ÷ sponsor spend', `${n0(r.extra)} ÷ ${usd(r.spend)} = ${r.extraPerDollar.toFixed(2)}`],
                   ['Platform Gross Profit', 'sponsor spend − rider credit × confirmed visits in funded areas', `${usd(r.spend)} − ${usd2(credit)} × ${n0(r.confirmed)} = ${usd(r.grossProfit)}`],
