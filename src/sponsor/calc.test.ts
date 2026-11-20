@@ -15,7 +15,7 @@ test('hand-worked visits, spend and platform cost', () => {
   expect(r.confirmed).toBeCloseTo(confirmed);
   expect(r.extra).toBeCloseTo(extra);
   expect(r.spend).toBeCloseTo(confirmed * 6);
-  expect(r.platformCost).toBeCloseTo(confirmed * 5 - confirmed * 6); // fee 6 exceeds credit 5, so the platform gains
+  expect(r.grossProfit).toBeCloseTo(confirmed * 6 - confirmed * 5); // fee 6 exceeds credit 5, so the platform gains $1 a visit
   expect(r.feeCoversCredit).toBe(true);
 });
 

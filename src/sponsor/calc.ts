@@ -58,7 +58,7 @@ export function compute(d: Data, store: Store, i: Inputs) {
   return {
     areas, funded: areas.filter(a => a.funded).length, spend, rides, confirmed, extra,
     extraPerDollar: spend > 0 ? extra / spend : 0,
-    platformCost: i.credit * confirmed - spend, // negative means the fees exceed the credit paid out
+    grossProfit: spend - i.credit * confirmed, // fees collected minus credit paid out; negative means a loss
     feeCoversCredit: i.fee >= i.credit,
   };
 }
