@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Advanced, DataState, Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
-import { compute, DEFAULTS, defaultStore, holdoutPlan, type Area, type Data, type Store } from '../sponsor/calc';
+import { BASE_VISIT, CAMPAIGN_WEEKS, compute, completion, DEFAULTS, defaultStore, holdoutPlan, nearness, type Area, type Data, type Store } from '../sponsor/calc';
 import { useJson } from '../useJson';
 import { ModuleFrame } from './Module';
 
@@ -176,8 +176,29 @@ export default function Sponsor() {
             <Advanced title="Advanced: how visits are confirmed">
               <p>A visit counts when four things match: the ride, the time since arrival, the phone location at the store, and a single check-in per ride. Where location is not accurate enough, such as inside malls, the rider scans a code at the entrance instead. The code changes regularly, so a photo of it cannot be reused.</p>
             </Advanced>
-            <Advanced title="Advanced: technical names">
-              <p>Starting areas are origin zones. Extra visits are incremental visits. Platform Gross Profit is the fees collected minus the rider credit paid out. Visit Efficiency is the extra visits an area brings for each sponsor dollar spent. Fee per confirmed visit is a cost-per-visit price. How to check this for real is a holdout test with matched control zones. Smallest change it can spot is the minimum detectable effect.</p>
+            <Advanced title="Advanced: how these numbers are calculated">
+              <p>Every line uses the lever settings as they are now. The first group works through the top-ranked starting area{r.areas[0] ? `, ${r.areas[0].zone.name}` : ''}, at full funding. The second group adds up the areas the budget funds. Move a lever and the numbers change.</p>
+              <dl className="formulas">{(() => {
+                const a = r.areas[0];
+                if (!a) return <p style={{ marginTop: 12 }}>No starting areas fall inside this distance, so there is nothing to calculate. Raise how far riders can start from.</p>;
+                const base = BASE_VISIT[store.kind], near = nearness(a.miles, radius), m = (lift / 100) * near, c = completion(window_);
+                const rides = a.weeklyTrips * CAMPAIGN_WEEKS, conf = rides * (base + m) * c, pc = (v: number) => `${(v * 100).toFixed(1)}%`;
+                const F: [string, string, string][] = [
+                  ['Rides to the store over the campaign', 'weekly trips × campaign weeks', `${n0(a.weeklyTrips)} × ${CAMPAIGN_WEEKS} = ${n0(rides)}`],
+                  ['Distance factor', '1 − 0.5 × the smaller of (distance ÷ how far riders can start from) and 1', `1 − 0.5 × min(${a.miles.toFixed(1)} ÷ ${radius}, 1) = ${near.toFixed(2)}`],
+                  ['Extra visit rate (the offer\'s effect)', 'extra visits lever × distance factor', `${lift}% × ${near.toFixed(2)} = ${pc(m)}`],
+                  ['Check-in rate', '1 − e^(−check-in window ÷ 12)', `1 − e^(−${window_} ÷ 12) = ${c.toFixed(2)}`],
+                  ['Confirmed visits', 'rides × (no-offer visit rate + extra visit rate) × check-in rate', `${n0(rides)} × (${pc(base)} + ${pc(m)}) × ${c.toFixed(2)} = ${n0(conf)}`],
+                  ['Extra visits (incremental visits)', 'rides × extra visit rate × check-in rate', `${n0(rides)} × ${pc(m)} × ${c.toFixed(2)} = ${n0(rides * m * c)}`],
+                  ['Visit Efficiency', 'extra visit rate ÷ ((no-offer visit rate + extra visit rate) × fee)', `${pc(m)} ÷ ((${pc(base)} + ${pc(m)}) × ${usd2(fee)}) = ${a.perDollar.toFixed(2)}`],
+                  ['Areas funded', 'the budget pays the fee on every confirmed visit, starting at the top of the ranking, until the money runs out', `${r.funded} of ${r.areas.length} areas, ${usd(r.spend)} of ${usd(budget)}`],
+                  ['Extra visits per sponsor dollar', 'extra visits in funded areas ÷ sponsor spend', `${n0(r.extra)} ÷ ${usd(r.spend)} = ${r.extraPerDollar.toFixed(2)}`],
+                  ['Platform Gross Profit', 'sponsor spend − rider credit × confirmed visits in funded areas', `${usd(r.spend)} − ${usd2(credit)} × ${n0(r.confirmed)} = ${usd(r.grossProfit)}`],
+                  ['Fee covers rider credit', 'fee ≥ rider credit', `${usd2(fee)} ${fee >= credit ? '≥' : '<'} ${usd2(credit)}: ${r.feeCoversCredit ? 'Yes' : 'No'}`],
+                ];
+                return F.map(([name, rule, now]) => <div key={name} style={{ marginTop: 12 }}><dt><b>{name}</b> = {rule}</dt><dd style={{ margin: '2px 0 0', fontFamily: 'var(--mono, monospace)', color: 'var(--ink)' }}>{now}</dd></div>);
+              })()}</dl>
+              <p style={{ marginTop: 12 }}>Starting areas are origin zones. Extra visits are incremental visits. Fee per confirmed visit is a cost-per-visit price. How to check this for real is a holdout test with matched control zones. Smallest change it can spot is the minimum detectable effect.</p>
               <p style={{ marginTop: 8 }}>Sources: {Object.values(data.sources).join('. ')}. The visit rate with no offer ({store.kind === 'mall' ? '8' : '4'} percent), the share who check in in time and the drop in effect with distance are placeholders until the Assumptions page.</p>
             </Advanced>
           </>}
