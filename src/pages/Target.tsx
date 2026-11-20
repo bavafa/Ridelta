@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Advanced, DataState, Field, Kpi, Levers, Seg, Slider, Strip, Tag } from '../components';
-import { compute, DEFAULTS, POLICIES, RIDERS, type Curves, type Policy } from '../target/calc';
+import { compute, DEFAULTS, POLICIES, REDEMPTION, RIDERS, type Curves, type Policy } from '../target/calc';
 import { useJson } from '../useJson';
 import { ModuleFrame } from './Module';
 
@@ -69,20 +69,20 @@ function Chart({ curves, i, ev, reach, view }: { curves: Curves; i: { policy: Po
 export default function Target() {
   const { data, err, retry } = useJson<Data>('data/target.json');
   const [budget, setBudget] = useState(D.budget), [discount, setDiscount] = useState(D.discount), [policy, setPolicy] = useState(D.policy);
-  const [cutoff, setCutoff] = useState(D.cutoff), [profitText, setProfit] = useState(D.profit);
+  const [fare, setFare] = useState(D.fare), [cutoff, setCutoff] = useState(D.cutoff), [profitText, setProfit] = useState(D.profit);
   const tableRef = useRef<HTMLElement>(null), [view, setView] = useState<View>('Extra rides');
 
   const profit = parseFloat(profitText.replace(/[^0-9.]/g, '')) || 0;
   const calc = useMemo(() => {
     if (!data) return null;
-    const inp = { budget, discount, cutoff, profit };
+    const inp = { budget, discount, cutoff, profit, fare };
     const rows = POLICIES.map(p => ({ p, r: compute(data.curves, { ...inp, policy: p }) }));
     // Headline: budget alone limits reach, so both ways spend the same money.
     const full = (p: Policy) => compute(data.curves, { ...inp, cutoff: 100, policy: p });
     return { rows, sel: rows.find(r => r.p === policy)!.r, rand: rows[1].r, moved: full('Moved by offer'), random: full('Random') };
-  }, [data, budget, discount, cutoff, profit, policy]);
+  }, [data, budget, discount, cutoff, profit, fare, policy]);
 
-  const reset = () => { setBudget(D.budget); setDiscount(D.discount); setPolicy(D.policy); setCutoff(D.cutoff); setProfit(D.profit); };
+  const reset = () => { setBudget(D.budget); setDiscount(D.discount); setFare(D.fare); setPolicy(D.policy); setCutoff(D.cutoff); setProfit(D.profit); };
 
   return (
     <ModuleFrame i={0}
@@ -94,6 +94,7 @@ export default function Target() {
           <div className="ctrl" style={{ borderTop: 0, paddingTop: 0 }}><button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={reset}>Reset to defaults</button></div>
           <Slider label="Total offer budget" min={5000} max={200000} step={5000} value={budget} onChange={setBudget} fmt={v => `$${n0(v)}`} />
           <Slider label="Discount size" help="Share of the fare the offer covers." min={5} max={50} step={5} value={discount} onChange={setDiscount} fmt={v => `${v}%`} />
+          <Slider label="Average fare" help="What one ride costs the rider. Turns the discount into dollars." min={5} max={60} step={1} value={fare} onChange={setFare} fmt={v => `$${v}`} />
           <Seg label="Who gets the offer" grid options={[...POLICIES]} value={policy} onChange={v => setPolicy(v as Policy)} />
           <Slider label="How many riders get it" help="Not used when everyone gets the offer." min={5} max={100} step={5} value={cutoff} onChange={setCutoff} fmt={v => `Top ${v}%`} />
           <Field label="Profit per ride" help="What the platform keeps from one ride, before the offer." value={`$${profitText.replace(/^\$/, '')}`} onChange={v => setProfit(v.replace(/^\$/, ''))} />
@@ -134,12 +135,27 @@ export default function Target() {
 
             <section className="card grid2">
               <div><h2 className="h3">How to read this</h2><p className="small muted" style={{ marginTop: 8 }}>"Likely riders" picks people who ride often. Many of them ride with or without an offer. "Moved by offer" picks riders whose choice the offer changes.</p></div>
-              <div><h2 className="h3">What this does not show</h2><p className="small muted" style={{ marginTop: 8 }}>Long-term effects, repeat offers and driver supply. Prove covers supply. The $20 fare, the 20 percent of riders who use the offer and the cost rule are placeholders until the Assumptions page.</p></div>
+              <div><h2 className="h3">What this does not show</h2><p className="small muted" style={{ marginTop: 8 }}>Long-term effects, repeat offers and driver supply. Prove covers supply. The starting $20 fare, the 20 percent of riders who use the offer and the cost rule are placeholders. Assumptions lists them.</p></div>
             </section>
 
-            <Advanced title="Advanced: technical names">
-              <p>The chart is an uplift curve. "Moved by offer" is uplift targeting. "Likely riders" is propensity targeting. "Everyone" is a blanket offer. Extra rides are incremental rides. Return per offer dollar is incremental contribution per incentive dollar. How many riders get it is the targeting cutoff.</p>
-              <p style={{ marginTop: 8 }}>Model: two gradient boosting models, one fit on treated riders and one on control riders, scored on a held-out half of the test. Source: <a className="link" href={data.url}>{data.source}</a>.</p>
+            <Advanced title="Advanced: how these numbers are calculated">
+              <p>Every line uses the lever settings as they are now, for the way of picking you selected ({policy}). Move a lever and the numbers change.</p>
+              <dl className="formulas">{(() => {
+                const r = calc.sel, s = r.reached / RIDERS, u = r.reached > 0 ? r.extra / r.reached : 0, each = REDEMPTION * (discount / 100) * fare;
+                const F: [string, string, string][] = [
+                  ['Share of riders reached', policy === 'Everyone' ? 'everyone, so no cutoff or budget cap' : 'the largest whole percent up to the cutoff where cost stays within the budget',
+                    policy === 'Everyone' ? '100%' : `${n0(s * 100)}%  (cutoff ${cutoff}%, budget cap ${n0(Math.min(100, 100 * budget / (RIDERS * each)))}%)`],
+                  ['Riders reached', 'riders × share', `${n0(RIDERS)} × ${n0(s * 100)}% = ${n0(r.reached)}`],
+                  ['Uplift (extra visit rate)', 'visit rate with the offer − visit rate without, among the riders reached; read from the test curve', `${(u * 100).toFixed(2)} extra rides per 100 riders`],
+                  ['Extra rides (incremental rides)', 'riders reached × uplift', `${n0(r.reached)} × ${u.toFixed(4)} = ${n0(r.extra)}`],
+                  ['Offer cost (incentive spend)', 'riders reached × redemption × discount × average fare', `${n0(r.reached)} × ${REDEMPTION * 100}% × ${discount}% × $${fare} = $${n0(r.cost)}`],
+                  ['Cost per extra ride', 'offer cost ÷ extra rides', `$${n0(r.cost)} ÷ ${n0(r.extra)} = ${usd(r.costPerExtra)}`],
+                  ['Return per offer dollar (incremental contribution per incentive dollar)', 'extra rides × profit per ride ÷ offer cost', `${n0(r.extra)} × ${usd(profit)} ÷ $${n0(r.cost)} = ${usd(r.returnPerDollar)}`],
+                ];
+                return F.map(([name, rule, now]) => <div key={name} style={{ marginTop: 12 }}><dt><b>{name}</b> = {rule}</dt><dd style={{ margin: '2px 0 0', fontFamily: 'var(--mono, monospace)', color: 'var(--ink)' }}>{now}</dd></div>);
+              })()}</dl>
+              <p style={{ marginTop: 12 }}>Redemption (the share of reached riders who use the offer) is {REDEMPTION * 100}%, a fixed placeholder that is not a lever. The average fare is the lever above. How many riders get it is the targeting cutoff. "Moved by offer" is uplift targeting, "Likely riders" is propensity targeting and "Everyone" is a blanket offer.</p>
+              <p style={{ marginTop: 8 }}>Uplift model: two gradient boosting models, one fit on treated riders and one on control riders, scored on a held-out half of the test. Source: <a className="link" href={data.url}>{data.source}</a>.</p>
             </Advanced>
           </>}
         </div>
