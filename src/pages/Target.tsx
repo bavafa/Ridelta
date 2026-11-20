@@ -12,7 +12,7 @@ const usd = (v: number) => (isFinite(v) ? `$${v.toFixed(2)}` : 'n/a');
 const pct = (a: number, b: number) => (b > 0 ? `${a >= b ? '+' : '−'}${Math.abs(Math.round((a / b - 1) * 100))}%` : '');
 
 // Chart frame, same as design/ui/target.html.
-const X0 = 60, X1 = 740, Y0 = 290, Y1 = 40;
+const X0 = 84, X1 = 740, Y0 = 290, Y1 = 40;
 const LX: Record<string, number> = { Random: 0.7, 'Likely riders': 0.7, 'Moved by offer': 0.45 };
 const LINE: Record<string, string> = { Random: '2 5', 'Likely riders': '8 5', 'Moved by offer': '' };
 
@@ -42,9 +42,10 @@ function Chart({ curves, i, ev, reach, view }: { curves: Curves; i: { policy: Po
       : `Extra rides by share of riders reached. Everyone is one point at 100 percent with ${n0(ev)} extra rides. The table below has the same numbers.`}>
       <g className="grid">{ticks.map(t => <line key={t} x1={X0} y1={y(t)} x2={X1} y2={y(t)} stroke={gain && t === 0 ? 'var(--ink-2)' : undefined} strokeDasharray={gain && t === 0 ? '0' : undefined} />)}</g>
       <line className="axis" x1={X0} y1={Y0} x2={X1} y2={Y0} /><line className="axis" x1={X0} y1="20" x2={X0} y2={Y0} />
-      <g className="t" textAnchor="end">{ticks.map(t => <text key={t} x="52" y={y(t) + 4}>{sign(t)}{n0(t)}</text>)}</g>
+      <g className="t" textAnchor="end">{ticks.map(t => <text key={t} x={X0 - 8} y={y(t) + 4}>{sign(t)}{n0(t)}</text>)}</g>
       <g className="t" textAnchor="middle">{[0, 0.25, 0.5, 0.75, 1].map(s => <text key={s} x={x(s)} y="312">{s * 100}%</text>)}</g>
       <text className="t" x="400" y="334" textAnchor="middle">Share of riders who get the offer</text>
+      <text className="t" transform={`translate(14 ${(Y0 + Y1) / 2}) rotate(-90)`} textAnchor="middle">{gain ? 'Rides more than random picking' : 'Extra rides'}</text>
       {i.policy !== 'Everyone' && <><line x1={cx} y1="24" x2={cx} y2={Y0} stroke="var(--action)" strokeWidth="1.5" />
         <text x={cx > 520 ? cx - 6 : cx + 6} y="34" textAnchor={cx > 520 ? 'end' : 'start'} fill="var(--action)" fontSize="12" fontWeight="600">{reach.capped ? 'Your budget stops at' : 'Your cutoff:'} top {Math.round(reach.s * 100)}% · {sign(re)}{n0(re)} {noun}</text>
         <circle cx={cx} cy={y(re)} r="6" fill="var(--data)" stroke="var(--surface)" strokeWidth="2" /></>}
