@@ -89,7 +89,7 @@ export default function Sponsor() {
           {r && store && data && plan && <>
             <div className="kpis">
               <Kpi label="Extra store visits per sponsor dollar" value={r.extraPerDollar.toFixed(2)} gold note={`${n0(r.extra)} extra visits`} kind="sim" />
-              <Kpi label="Platform cost after sponsor fees" value={usd(r.platformCost)} note={r.platformCost <= 0 ? 'fees exceed credit' : 'credit exceeds fees'} kind="sim" />
+              <Kpi label="Platform Gross Profit" value={usd(r.grossProfit)} note={r.grossProfit >= 0 ? 'fees exceed credit' : 'credit exceeds fees'} kind="sim" />
               <Kpi label="Sponsored rides" value={n0(r.rides)} note="from trip volumes" kind="est" />
             </div>
 
@@ -106,11 +106,11 @@ export default function Sponsor() {
               {r.areas.length === 0 ? <p className="muted">No starting areas fall inside this distance. Raise how far riders can start from.</p> : (
                 <div className="stack">
                   <div className="table-wrap"><table className="table">
-                    <thead><tr><th>Rank</th><th>Area</th><th className="n">Weekly trips</th><th className="n">Extra visits</th><th className="n">Per sponsor $</th></tr></thead>
+                    <thead><tr><th>Rank</th><th>Area</th><th className="n">Weekly trips</th><th className="n">Extra visits</th><th className="n">Gross Profit / Visit</th></tr></thead>
                     <tbody>{(all ? r.areas : r.areas.slice(0, 8)).map((a, i) => (
                       <tr key={a.zone.id} className={a.funded ? undefined : 'muted'}><td><span className="rank">{i + 1}</span></td>
                         <td>{a.zone.name}{!a.funded && <span className="small"> · not funded</span>}{a.funded && a.share < 0.995 && <span className="small muted"> · part funded</span>}</td><td className="n">{n0(a.weeklyTrips)}</td>
-                        <td className="n">{n0(a.extra)}</td><td className="n">{a.perDollar.toFixed(2)}</td></tr>))}</tbody>
+                        <td className="n">{n0(a.extra)}</td><td className="n">{fee < credit ? '−' : ''}{usd2(Math.abs(fee - credit))}</td></tr>))}</tbody>
                   </table></div>
                   <p className="small muted">Trips <Tag kind="real" /> Visits <Tag kind="sim" /> Areas are ranked by extra visits over the campaign. The budget funds them from the top. Extra visits for areas not funded show what they would bring.</p>
                   {r.areas.length > 8 && <button type="button" className="link" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setAll(!all)}>{all ? 'Show top 8' : `Show all ${r.areas.length} areas`}</button>}
@@ -177,13 +177,13 @@ export default function Sponsor() {
               <p>A visit counts when four things match: the ride, the time since arrival, the phone location at the store, and a single check-in per ride. Where location is not accurate enough, such as inside malls, the rider scans a code at the entrance instead. The code changes regularly, so a photo of it cannot be reused.</p>
             </Advanced>
             <Advanced title="Advanced: technical names">
-              <p>Starting areas are origin zones. Extra visits are incremental visits. Platform cost after sponsor fees is net platform cost. Fee per confirmed visit is a cost-per-visit price. How to check this for real is a holdout test with matched control zones. Smallest change it can spot is the minimum detectable effect.</p>
+              <p>Starting areas are origin zones. Extra visits are incremental visits. Platform Gross Profit is the fees collected minus the rider credit paid out. Gross Profit / Visit is the fee minus the credit for one confirmed visit. Fee per confirmed visit is a cost-per-visit price. How to check this for real is a holdout test with matched control zones. Smallest change it can spot is the minimum detectable effect.</p>
               <p style={{ marginTop: 8 }}>Sources: {Object.values(data.sources).join('. ')}. The visit rate with no offer ({store.kind === 'mall' ? '8' : '4'} percent), the share who check in in time and the drop in effect with distance are placeholders until the Assumptions page.</p>
             </Advanced>
           </>}
         </div>
       </div>
-      {r && <Strip a={['Visits per sponsor $', r.extraPerDollar.toFixed(2)]} b={['Platform cost', usd(r.platformCost)]} kind="sim" />}
+      {r && <Strip a={['Visits per sponsor $', r.extraPerDollar.toFixed(2)]} b={['Gross profit', usd(r.grossProfit)]} kind="sim" />}
     </ModuleFrame>
   );
 }
